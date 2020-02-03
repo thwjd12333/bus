@@ -1,0 +1,346 @@
+<!DOCTYPE html>
+<html lang="ko-kr">
+
+<head>
+
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta name="description" content="">
+    <meta name="author" content="">
+    <link rel="shortcut icon" type="image⁄x-icon" href="/image/Raphael_logo.png">
+
+    <title>등하원 관리 시스템</title>
+
+    <!-- Bootstrap Core CSS -->
+    <link href="../vendor/bootstrap/css/bootstrap.min.css" rel="stylesheet">
+
+    <!-- MetisMenu CSS -->
+    <link href="../vendor/metisMenu/metisMenu.min.css" rel="stylesheet">
+
+    <!-- DataTables CSS -->
+    <link href="../vendor/datatables-plugins/dataTables.bootstrap.css" rel="stylesheet">
+
+    <!-- DataTables Responsive CSS -->
+    <link href="../vendor/datatables-responsive/dataTables.responsive.css" rel="stylesheet">
+
+    <!-- Custom CSS -->
+    <link href="../dist/css/sb-admin-2.css" rel="stylesheet">
+
+    <!-- Custom Fonts -->
+    <link href="../vendor/font-awesome/css/font-awesome.min.css" rel="stylesheet" type="text/css">
+
+    <!-- HTML5 Shim and Respond.js IE8 support of HTML5 elements and media queries -->
+    <!-- WARNING: Respond.js doesn't work if you view the page via file:// -->
+    <!--[if lt IE 9]>
+        <script src="https://oss.maxcdn.com/libs/html5shiv/3.7.0/html5shiv.js"></script>
+        <script src="https://oss.maxcdn.com/libs/respond.js/1.4.2/respond.min.js"></script>
+    <![endif]-->
+    <style>
+        .Hyperlink {
+       font-weight: bold;
+     }
+     .table, th {
+       text-align: center;
+     }
+     .nav.nav-second-level li a{
+		 padding-left: 50px;
+    }
+    </style>
+</head>
+
+<body onload="clientGet()">
+
+    <div id="wrapper">
+
+        <!-- Navigation -->
+        <nav class="navbar navbar-default navbar-static-top" role="navigation" style="margin-bottom: 0">
+                <div>
+                    <button style="float :right" type="button" class="navbar-toggle" data-toggle="collapse" data-target=".navbar-collapse">
+                        <span class="sr-only">Toggle navigation</span>
+                        <span class="icon-bar"></span>
+                        <span class="icon-bar"></span>
+                        <span class="icon-bar"></span>
+                    </button>
+                    <a class="navbar-brand" href="183.110.220.11:15000">등하원 관리 시스템</a>
+                    <ul style="float :right" class="nav navbar-top-links navbar-right">
+                        <li>
+                            <a href="#" class="menu" onclick="onLogOut()"><i class="fa fa-sign-out fa-fw"></i> 로그 아웃</a>
+                        </li>
+                    </ul>
+                </div>
+            </nav>
+
+            <div class="navbar-default sidebar" role="navigation">
+                <div class="sidebar-nav navbar-collapse">
+                    <ul class="nav" id="side-menu">
+
+                        <li>
+                            <a href="#"><i class="fa fa-user fa-fw"></i> 사용자 정보 관리<span class="fa arrow"></span></a>
+                            <ul class="nav nav-second-level">
+                                <li>
+                                    <a href="user_information">사용자 정보</a>
+                                </li>
+                                <li>
+                                    <a href="user_register">사용자 등록</a>
+                                </li>
+                                <li>
+                                    <a href="user_password_change">비밀번호 변경</a>
+                                </li>
+                            </ul>
+                        </li>
+                        <li>
+                            <a href="#"><i class="fa fa-building fa-fw"></i> 지점 관리<span class="fa arrow"></span></a>
+                            <ul class="nav nav-second-level">
+                                <li>
+                                    <a href="branch_management">지점 정보</a>
+                                </li>
+                                <li>
+                                    <a href="branch_register">지점 등록</a>
+                                </li>
+                            </ul>
+                        </li>
+                        <li  class="active">
+                            <a href="#"><i class="fa fa-user-plus fa-fw"></i> 클라이언트 관리<span class="fa arrow"></span></a>
+                            <ul class="nav nav-second-level">
+                                <li>
+                                    <a class="active" href="client_management">클라이언트 정보</a>
+                                </li>
+                                <li>
+                                    <a href="client_register">클라이언트 등록</a>
+                                </li>
+                            </ul>
+                        </li>
+                        <li>
+                            <a href="#"><i class="fa fa-rss fa-fw"></i> 서비스<span class="fa arrow"></span></a>
+                            <ul class="nav nav-second-level">
+                                <li>
+                                    <a href="service_management">서비스 상태</a>
+                                </li>
+                            </ul>
+                        </li>
+                        <li>
+                            <a href="#"><i class="fa fa-database fa-fw"></i> 데이터 조회<span class="fa arrow"></span></a>
+                            <ul class="nav nav-second-level">
+                                    <li><a href="data_info">요약 정보</a></li>
+                                    <li><a href="data_daily_check">당일 조회</a></li>
+                                    <li><a href="data_check">기간 조회</a></li>
+                            </ul>
+                        </li>
+                        <li>
+                            <a href="#"><i class="fa fa-history fa-fw"></i> 로그<span class="fa arrow"></span></a>
+                            <ul class="nav nav-second-level">
+                                <li><a href="log_management">RFID 로그</a></li>
+                            </ul>
+                            <!-- /.nav-second-level -->
+                        </li>
+                    </ul>
+                </div>
+                <!-- /.sidebar-collapse -->
+            </div>
+            <!-- /.navbar-static-side -->
+
+
+        <div id="page-wrapper">
+            <div class="row">
+                <div class="col-lg-12">
+                    <h3 class="page-header">클라이언트 정보 관리</h3>
+                </div>
+                <!-- /.col-lg-12 -->
+            </div>
+            <!-- /.row -->
+            <% if( Authority.substr(4, 1) == '1' ) {%>
+            <div class="row">
+                <div class="col-lg-12">
+                    <!-- /.panel-heading -->
+                    <div class="panel-body" style="height: 100%;">
+                        <table width="100%" class="table table-striped table-bordered table-hover" id="dataTables-example">
+                            <thead>
+                                <tr>
+                                    <th>번호</th>                                   
+                                    <th>지점명</th>    
+                                    <th>사진</th>                                
+                                    <th>성명</th>
+                                    <th>성별</th>
+                                    <th>생년월일</th>
+                                    <th>RFID1</th>
+                                    <th>RFID2</th>
+                                    <th>장기요양 관리번호</th>
+                                    <th>인정 등급</th>
+                                    <th>유효 기간</th>
+                                    <th>계약자명</th>
+                                    <th>관계</th>
+                                    <th>전화번호</th>
+                                    <th>계약일자</th>
+                                    <th>계약기간</th>
+                                    <th>관리</th>
+                                </tr>
+                            </thead>
+
+                        </table>
+                        <!-- /.table-responsive -->
+                    </div>
+                    <!-- /.panel-body -->
+                </div>
+                <!-- /.panel -->
+            </div>
+            <%} else {%>
+            <div>
+                <p>권한이 없습니다.</p>
+            </div>
+            <%}%>
+            <!-- /.col-lg-12 -->
+        </div>
+        <!-- /.row -->
+    </div>
+    <!-- /#page-wrapper -->
+
+
+    <script>
+        function clientGet() {
+
+                var AuthorityEnum = returnEnum();
+                if ("<%= Authority%>".substr(AuthorityCheck("클라이언트 정보", AuthorityEnum), 1) == '1') {
+
+                    // //테이블 수정,삭제 버튼내 row 위치
+                    var Num = 0;
+                    var table = $('#dataTables-example').DataTable({
+                        responsive: true,
+                        retrieve: true,
+                        bAutoWidth: true,
+                        processing: true,
+
+                        "ajax": {
+                            "url": "/htmlclientget",
+                            "type": "POST",
+                        },
+
+                        "columns": [                         
+                            { data: "Idx" },
+                            { data: "Branch" },
+                            { data: "ImgPath",                            
+                                render: function (data) {
+                                    var imgName = data.split('/');
+
+                                    return "<img src='"+imgName[imgName.length - 1]+"' width = '90' height='120'>"
+                                } },
+                            { data: "Name" },
+                            { data: "Sex" },
+                            {
+                                data: "Birth",
+                                render: function (data) {
+                                    return DateReform(data);
+                                }
+                            },
+                            { data: "RFID1" },
+                            { data: "RFID2" },
+                            { data: "CareLicense" },
+                            { data: "CareClass" },
+                            {
+                                data: "CareLicensePeriod",
+                                render: function (data) {
+                                    return DateReform(data);
+                                }
+                            },
+                            { data: "ContractorName" },
+                            { data: "Relation" },
+                            {
+                                data: "ContractorPhone",
+                                render: function (data) {
+                                    return PhoneReform(data);
+                                }
+                            },
+                            {
+                                data: "ContractDate",
+                                render: function (data) {
+                                    return DateReform(data);
+                                }
+                            },
+                            {
+                                data: "ContractPeriod",
+                                render: function (data) {
+                                    return DateReform(data);
+                                }
+                            },
+                            {
+                                data : "Idx",
+                                render: function (data) {
+                                    return "<button type='button' class='btn btn-outline btn-primary btn-xs' onclick='clientReform(" + data + ")'>수정</button>&nbsp;&nbsp;<button type='button' class='btn btn-outline btn-primary btn-xs' onclick='deleteBtnClick(" + data + ")'>삭제</button>"
+                                }
+                            },
+                        ]
+                    });
+                    $('#container').css('display', 'block');
+                    table.columns.adjust().draw();
+                }
+            }
+
+        function deleteBtnClick(row) {            
+            var deleteIdx = row;
+                deleteURL('/htmlclientdel', deleteIdx);
+            }
+
+        ///클라이언트 정보 수정
+        function clientReform(idx) {
+            var t = $('#dataTables-example').DataTable();
+
+                var this_row;
+                for(var i = 0; i< t.data().length ; i++)
+                {
+                    if(t.row(i).data().Idx == idx)
+                    this_row = t.row(i).data();
+                }
+            var form = document.createElement('form');
+            form.setAttribute('method', "post");
+            form.setAttribute('action', '/clientreform');
+
+              formData(this_row.Idx, form, 'Idx');
+              formData(this_row.Branch, form, 'Branch');
+              formData(this_row.Name, form, 'Name');
+              formData(this_row.Sex, form, 'Sex');
+              formData(this_row.Birth, form, 'Birth');
+              formData(this_row.RFID1, form, 'RFID1');
+              formData(this_row.RFID2, form, 'RFID2');
+              formData(this_row.CareLicense, form, 'CareLicense');
+              formData(this_row.CareClass, form, 'CareClass');
+              formData(this_row.CareLicensePeriod, form, 'CareLicensePeriod');
+              formData(this_row.ContractorName, form, 'ContractorName');
+              formData(this_row.Relation, form, 'Relation');
+              formData(this_row.ContractorPhone, form, 'ContractorPhone');
+              formData(this_row.ContractDate, form, 'ContractDate');
+              formData(this_row.ContractPeriod, form, 'ContractPeriod');
+
+            document.body.appendChild(form);
+            form.submit();
+        }
+
+      document.addEventListener("DOMContentLoaded", function(){
+    //aa();
+});
+    </script>
+
+
+    <!-- /#wrapper -->
+    <script type="text/javascript" src="/js/Func.js"></script>
+    <!-- jQuery -->
+    <script src="../vendor/jquery/jquery.min.js"></script>
+
+    <!-- Bootstrap Core JavaScript -->
+    <script src="../vendor/bootstrap/js/bootstrap.min.js"></script>
+
+    <!-- Metis Menu Plugin JavaScript -->
+    <script src="../vendor/metisMenu/metisMenu.min.js"></script>
+
+    <!-- DataTables JavaScript -->
+    <script src="../vendor/datatables/js/jquery.dataTables.min.js"></script>
+    <script src="../vendor/datatables-plugins/dataTables.bootstrap.min.js"></script>
+    <script src="../vendor/datatables-responsive/dataTables.responsive.js"></script>
+
+    <!-- Custom Theme JavaScript -->
+    <script src="../dist/js/sb-admin-2.js"></script>
+
+    <!-- Page-Level Demo Scripts - Tables - Use for reference -->
+
+</body>
+
+</html>

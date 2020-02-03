@@ -1,0 +1,67 @@
+<!doctype html>
+<html lang="ko">
+
+<head>
+      
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta name="description" content="">
+    <meta name="author" content="">
+    <link rel="shortcut icon" type="image⁄x-icon" href="/image/Raphael_logo.png">
+
+    <title>등하원 관리 시스템</title>
+    <script type="text/javascript" src="//dapi.kakao.com/v2/maps/sdk.js?appkey=24193ff52aeb09f4e581c9e48815ce07"></script>
+    </head>
+
+    <body >       
+                    <div id="map" style="width:500px;height:400px;"></div>
+                    <script>                      
+                  
+                    alert("<%=data.GpsNum%>");
+                    if ("<%=data.GpsNum%>" == 1) {
+                        var strTemp = "<%=data.GpsGoCenterRideTime%>".split('/');
+                    }
+                    else if ("<%=data.GpsNum%>" == 2) {
+                        var strTemp = "<%=data.GpsGoCenterArrivalTime%>".split('/');
+                    }
+                    else if ("<%=data.GpsNum%>" == 3) {
+                        var strTemp = "<%=data.GpsBackCenterQuitTime%>".split('/');
+                    }
+                    else if ("<%=data.GpsNum%>" == 4) {
+                        var strTemp = "<%=data.GpsBackCenterGetoffTime%>".split('/');
+                    }
+
+                    var dataLat = strTemp[0].replace(/[^0-9.]/g, "");
+                    var dataLng = strTemp[1].replace(/[^0-9.]/g, "");
+                    alert(dataLat);
+                    alert(dataLng);
+                    var container = document.getElementById('map');
+                    var options = {
+                        center: new daum.maps.LatLng(dataLat, dataLng),
+                        level: 3
+                    };
+
+                    var map = new daum.maps.Map(container, options);
+                    addMarker(new daum.maps.LatLng(dataLat, dataLng));
+
+
+
+                    function addMarker(position) {
+
+                        // 마커를 생성합니다
+                        var marker = new daum.maps.Marker({
+                            position: position
+                        });
+
+                        // 마커가 지도 위에 표시되도록 설정합니다
+                        marker.setMap(map);
+
+                        // 생성된 마커를 배열에 추가합니다
+                        markers.push(marker);
+                    }
+                
+
+                        </script>
+                    
+                    </body>

@@ -1,0 +1,262 @@
+<!DOCTYPE html>
+<html lang="ko-kr">
+
+<head>
+
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta name="description" content="">
+    <meta name="author" content="">
+    <link rel="shortcut icon" type="image⁄x-icon" href="/image/Raphael_logo.png">
+
+    <title>등하원 관리 시스템</title>
+
+    <!-- Bootstrap Core CSS -->
+    <link href="../vendor/bootstrap/css/bootstrap.min.css" rel="stylesheet">
+
+    <!-- MetisMenu CSS -->
+    <link href="../vendor/metisMenu/metisMenu.min.css" rel="stylesheet">
+
+    <!-- DataTables CSS -->
+    <link href="../vendor/datatables-plugins/dataTables.bootstrap.css" rel="stylesheet">
+
+    <!-- DataTables Responsive CSS -->
+    <link href="../vendor/datatables-responsive/dataTables.responsive.css" rel="stylesheet">
+
+    <!-- Custom CSS -->
+    <link href="../dist/css/sb-admin-2.css" rel="stylesheet">
+
+    <!-- Custom Fonts -->
+    <link href="../vendor/font-awesome/css/font-awesome.min.css" rel="stylesheet" type="text/css">
+
+    <!-- HTML5 Shim and Respond.js IE8 support of HTML5 elements and media queries -->
+    <!-- WARNING: Respond.js doesn't work if you view the page via file:// -->
+    <!--[if lt IE 9]>
+        <script src="https://oss.maxcdn.com/libs/html5shiv/3.7.0/html5shiv.js"></script>
+        <script src="https://oss.maxcdn.com/libs/respond.js/1.4.2/respond.min.js"></script>
+    <![endif]-->
+    <style>
+        .Hyperlink {
+       font-weight: bold;
+     }
+     .table, th {
+       text-align: center;
+     }
+     .nav.nav-second-level li a{
+		 padding-left: 50px;
+    }
+    </style>
+</head>
+
+<body>
+
+    <div id="wrapper">
+
+        <!-- Navigation -->
+        <nav class="navbar navbar-default navbar-static-top" role="navigation" style="margin-bottom: 0">
+                <div>
+                    <button style="float :right" type="button" class="navbar-toggle" data-toggle="collapse" data-target=".navbar-collapse">
+                        <span class="sr-only">Toggle navigation</span>
+                        <span class="icon-bar"></span>
+                        <span class="icon-bar"></span>
+                        <span class="icon-bar"></span>
+                    </button>
+                    <a class="navbar-brand" href="/">등하원 관리 시스템</a>
+                    <ul style="float :right" class="nav navbar-top-links navbar-right">
+                        <li>
+                            <a href="#" class="menu" onclick="onLogOut()"><i class="fa fa-sign-out fa-fw"></i> 로그 아웃</a>
+                        </li>
+                    </ul>
+                </div>
+            </nav>
+
+            <div class="navbar-default sidebar" role="navigation">
+                <div class="sidebar-nav navbar-collapse">
+                    <ul class="nav" id="side-menu">
+
+                        <li>
+                            <a href="#"><i class="fa fa-user fa-fw"></i> 사용자 정보 관리<span class="fa arrow"></span></a>
+                            <ul class="nav nav-second-level">
+                                <li>
+                                    <a href="user_information">사용자 정보</a>
+                                </li>
+                                <li>
+                                    <a href="user_register">사용자 등록</a>
+                                </li>
+                                <li>
+                                    <a href="user_password_change">비밀번호 변경</a>
+                                </li>
+                            </ul>
+                        </li>
+                        <li>
+                            <a href="#"><i class="fa fa-building fa-fw"></i> 지점 관리<span class="fa arrow"></span></a>
+                            <ul class="nav nav-second-level">
+                                <li>
+                                    <a href="branch_management">지점 정보</a>
+                                </li>
+                                <li>
+                                    <a href="branch_register">지점 등록</a>
+                                </li>
+                            </ul>
+                        </li>
+                        <li>
+                            <a href="#"><i class="fa fa-user-plus fa-fw"></i> 클라이언트 관리<span class="fa arrow"></span></a>
+                            <ul class="nav nav-second-level">
+                                <li>
+                                    <a href="client_management">클라이언트 정보</a>
+                                </li>
+                                <li>
+                                    <a href="client_register">클라이언트 등록</a>
+                                </li>
+                            </ul>
+                        </li>
+                        <li>
+                            <a href="#"><i class="fa fa-rss fa-fw"></i> 서비스<span class="fa arrow"></span></a>
+                            <ul class="nav nav-second-level">
+                                <li>
+                                    <a href="service_management">서비스 상태</a>
+                                </li>
+                            </ul>
+                        </li>
+                        <li>
+                            <a href="#"><i class="fa fa-database fa-fw"></i> 데이터 조회<span class="fa arrow"></span></a>
+                            <ul class="nav nav-second-level">
+                                    <li><a href="data_info">요약 정보</a></li>
+                                    <li><a href="data_daily_check">당일 조회</a></li>
+                                    <li><a href="data_check">기간 조회</a></li>
+                            </ul>
+                        </li>
+                        <li class="active">
+                            <a href="#"><i class="fa fa-history fa-fw"></i> 로그<span class="fa arrow"></span></a>
+                            <ul class="nav nav-second-level">
+                                <li>
+                                    <a class="active" href="log_management">RFID 로그</a>
+                                </li>
+                            </ul>
+                        </li>
+
+                    </ul>
+                </div>
+                <!-- /.sidebar-collapse -->
+            </div>
+            <!-- /.navbar-static-side -->
+
+
+        <div id="page-wrapper">
+            <div class="row">
+                <div class="col-lg-12">
+                    <h3 class="page-header">RFID 로그 정보 관리</h3>
+                </div>
+            </div>
+            <div class="row">
+                <div class="col-lg-12">
+
+                    <div id="panel_body" class="panel-body" style="height: 100%;">
+
+                    </div>
+                    <div id="loading"style="display:none">
+                            <h3>로딩중</h3>
+                        </div>
+
+                        <table width="100%" class="table table-striped table-bordered table-hover" id="dataTables-example11">
+                            <thead>
+                                <tr>
+                                    <th>번호</th>
+                                    <th>RFID1</th>
+                                    <th>RFID2</th>
+                                    <th>지점</th>
+                                    <th>위치</th>
+                                    <th>상태</th>
+                                    <th>시간</th>
+                                    <th>타입</th>
+                                </tr>
+                            </thead>                           
+                        </table>
+
+                </div>
+                <div id = "ButtonDiv" style="float:right">
+            </div>
+
+         
+                </div>
+        </div>
+    </div>
+
+
+    <script>
+    </script>
+
+
+    <!-- /#wrapper -->
+    <script type="text/javascript" src="/js/Func.js"></script>
+    <!-- jQuery -->
+    <script src="../vendor/jquery/jquery.min.js"></script>
+
+    <!-- Bootstrap Core JavaScript -->
+    <script src="../vendor/bootstrap/js/bootstrap.min.js"></script>
+
+    <!-- Metis Menu Plugin JavaScript -->
+    <script src="../vendor/metisMenu/metisMenu.min.js"></script>
+
+    <!-- DataTables JavaScript -->
+    <script src="../vendor/datatables/js/jquery.dataTables.min.js"></script>
+    <script src="../vendor/datatables-plugins/dataTables.bootstrap.min.js"></script>
+    <script src="../vendor/datatables-responsive/dataTables.responsive.js"></script>
+    <script src="https://cdn.datatables.net/buttons/1.5.2/js/dataTables.buttons.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jszip/3.1.3/jszip.min.js"></script>
+    <script src="https://cdn.datatables.net/buttons/1.5.2/js/buttons.html5.min.js"></script>
+    <!-- Custom Theme JavaScript -->
+    <script src="../dist/js/sb-admin-2.js"></script>
+
+    <!-- Page-Level Demo Scripts - Tables - Use for reference -->
+    <script>
+     $(document).ready(function() {
+    $('#dataTables-example11').DataTable( {
+        responsive: true,
+                retrieve: true,
+                bAutoWidth: true,
+                processing :true,
+                serverSide : false,
+        "ajax": {
+                        "url": "/htmllocationstate_save_getalldata",
+                        "type": "POST",
+             },
+             "columns": [
+                 { "data": "Idx" },
+                 { "data": "RFID1" },
+                 { "data": "RFID2" },
+                 { "data": "Branch" },
+                 { "data": "Location" },
+                 { "data": "State" },
+                 { "data": "Time" },
+                 { "data": "Type" }
+             ],
+             "order": [[6, "desc"]],
+
+             buttons: [{
+            extend: 'excel',
+            text: '엑셀',
+            filename: 'RFID 로그',
+            footer: true,
+            className: 'clickExcel'
+             }]
+
+
+
+         });
+
+         var t = $('#dataTables-example11').DataTable();
+         $('#container').css('display', 'block');
+         t.columns.adjust().draw();
+
+          $('#ButtonDiv').prepend('<button type="button" class = "btn btn-success" id="exportCSV">엑셀로 내보내기</button>');
+            $('#exportCSV').on('click',function(){
+                t.button('.clickExcel').trigger();
+})
+} );
+    </script>
+
+</body>
+
+</html>

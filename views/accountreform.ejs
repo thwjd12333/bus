@@ -1,0 +1,407 @@
+<!DOCTYPE html>
+<html lang="ko-kr">
+
+<head>
+
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta name="description" content="">
+    <meta name="author" content="">
+    <link rel="shortcut icon" type="image⁄x-icon" href="/image/Raphael_logo.png">
+    <title>등하원 관리 시스템</title>
+    <!-- Bootstrap Core CSS -->
+    <link href="../vendor/bootstrap/css/bootstrap.min.css" rel="stylesheet">
+    <!-- MetisMenu CSS -->
+    <link href="../vendor/metisMenu/metisMenu.min.css" rel="stylesheet">
+    <!-- Custom CSS -->
+    <link href="../dist/css/sb-admin-2.css" rel="stylesheet">
+    <!-- Custom Fonts -->
+    <link href="../vendor/font-awesome/css/font-awesome.min.css" rel="stylesheet" type="text/css">
+
+    <!-- HTML5 Shim and Respond.js IE8 support of HTML5 elements and media queries -->
+    <!-- WARNING: Respond.js doesn't work if you view the page via file:// -->
+    <!--[if lt IE 9]>
+        <script src="https://oss.maxcdn.com/libs/html5shiv/3.7.0/html5shiv.js"></script>
+        <script src="https://oss.maxcdn.com/libs/respond.js/1.4.2/respond.min.js"></script>
+    <![endif]-->
+
+    <style>
+        .help-block{
+      text-align: left;
+    }
+		.nav.nav-second-level li a{
+		 padding-left: 50px;
+	}
+    </style>
+</head>
+
+<body onload="SetDrop('drop_branchName1')">
+
+    <div id="wrapper">
+            <nav class="navbar navbar-default navbar-static-top" role="navigation" style="margin-bottom: 0">
+                    <div>
+                        <button style="float :right" type="button" class="navbar-toggle" data-toggle="collapse" data-target=".navbar-collapse">
+                            <span class="sr-only">Toggle navigation</span>
+                            <span class="icon-bar"></span>
+                            <span class="icon-bar"></span>
+                            <span class="icon-bar"></span>
+                        </button>
+                        <a class="navbar-brand" href="/">등하원 관리 시스템</a>
+                        <ul style="float :right" class="nav navbar-top-links navbar-right">
+                            <li>
+                                <a href="#" class="menu" onclick="onLogOut()"><i class="fa fa-sign-out fa-fw"></i> 로그 아웃</a>
+                            </li>
+                        </ul>
+                    </div>
+                </nav>
+                <div class="navbar-default sidebar" role="navigation">
+			<div class="sidebar-collapse">
+				<ul class="nav" id="side-menu">
+					<li class="active">
+						<a href="#"><i class="fa fa-user fa-fw"></i> 사용자 정보 관리<span class="fa arrow"></span></a>
+						<ul class="nav nav-second-level collapse">
+						  <li><a class="active" href="user_information">사용자 정보</a></li>
+						  <li><a href="user_register">사용자 등록</a></li>
+						  <li><a href="user_password_change">비밀번호 변경</a></li>
+						</ul>
+						<!-- /.nav-second-level -->
+					</li>
+					<li>
+						<a href="#"><i class="fa fa-building fa-fw"></i> 지점 관리<span class="fa arrow"></span></a>
+						<ul class="nav nav-second-level collapse">
+						  <li><a href="branch_management">지점 정보</a></li>
+						  <li><a href="branch_register">지점 등록</a></li>
+						</ul>
+						<!-- /.nav-second-level -->
+					</li>
+					<li>
+						<a href="#"><i class="fa fa-user-plus fa-fw"></i> 클라이언트 관리<span class="fa arrow"></span></a>
+						<ul class="nav nav-second-level collapse">
+						  <li><a href="client_management">클라이언트 정보</a></li>
+						  <li><a href="client_register">클라이언트 등록</a></li>
+						</ul>
+						<!-- /.nav-second-level -->
+					</li>
+					<li>
+						<a href="#"><i class="fa fa-database fa-fw"></i> 서비스<span class="fa arrow"></span></a>
+						<ul class="nav nav-second-level collapse">
+						  <li><a href="service_management">서비스 상태</a></li>
+						</ul>
+						<!-- /.nav-second-level -->
+					</li>
+          <li>
+              <a href="#"><i class="fa fa-bar-chart-o fa-fw"></i> 데이터 조회<span class="fa arrow"></span></a>
+              <ul class="nav nav-second-level">
+                    <li><a href="data_info">요약 정보</a></li>
+                    <li><a href="data_daily_check">당일 조회</a></li>
+                    <li><a href="data_check">기간 조회</a></li>
+              </ul>
+              <!-- /.nav-second-level -->
+          </li>
+					<li>
+						<a href="#"><i class="fa fa-history fa-fw"></i> 로그<span class="fa arrow"></span></a>
+						<ul class="nav nav-second-level collapse">
+						  <li><a href="log_management">RFID 로그</a></li>
+						</ul>
+						<!-- /.nav-second-level -->
+                    </li>
+                  
+				</ul>
+			</div>
+        </div>
+
+        <div id="page-wrapper">
+            <div class="row">
+                <div class="col-lg-12">
+                    <h3 class="page-header">사용자 정보 수정</h3>
+                </div>
+                <!-- /.col-lg-12 -->
+            </div>
+            <!-- /.row -->
+            <div class="row">
+                <div class="col-lg-12">
+                    <div class="panel panel-default">
+                        <div class="panel-body">
+                            <div class="row">
+                                <div class="col-lg-3">
+                                    <form role="form" action="/htmlaccountedit" method="post" autocomplete="off">
+                                        <input type="hidden" name="Idx" value="<%=data.Idx%>">
+                                        <input type="hidden" id="Authority" name="Authority" value=''>
+                                        <div class="form-group">
+                                            <label>계정명 <span style="font-size: 6pt;">&nbsp;<b><span style="color: rgb(255, 0, 0);">계정명은
+                                                            필수 입력사항입니다.</span></b></span></label>
+                                            <input class="form-control" id="userSign-accountName" name="LoginId" value="<%=data.LoginId%>"
+                                                placeholder="계정명" readonly>
+                                        </div>
+                                        <div class="form-group">
+                                            <label>비밀번호 <span style="font-size: 6pt;">&nbsp;<b><span style="color: rgb(255, 0, 0);">비밀번호는
+                                                            필수 입력사항입니다.</span></b></span></label>
+                                            <input type="password" class="form-control" id="userSign_password" name="Passwd"
+                                                value="<%=data.Passwd%>" placeholder="비밀번호" readonly>
+                                            <div class="checkbox">
+                                                <label>
+                                                    <input type="checkbox" value="">로그인시 비밀번호 변경
+                                                </label>
+                                            </div>
+                                        </div>
+                                        <div class="form-group">
+                                            <label>사용자명</label>
+                                            <input type="text" class="form-control" id="userSign_userName" name="Name"
+                                                value="<%=data.Name%>">
+                                        </div>
+                                        <div class="form-group">
+                                            <label>RFID(13.6)</label>
+                                            <input type="text" class="form-control" id="userSign_FRID1" name="RFID1"
+                                                value="<%=data.RFID1%>">
+                                            <label class="help-block" style="font-size:8pt;">FRID13.6mhz는 차량에서 사용하는
+                                                인식기의 카드 번호 입니다.</label>
+                                        </div>
+                                        <div class="form-group">
+                                            <label>RFID(900)</label>
+                                            <input type="text" class="form-control" id="userSign_FRID2" name="RFID2"
+                                                value="<%=data.RFID2%>">
+                                            <label class="help-block" style="font-size:8pt;">FRID900mhz는 센터에서 사용하는 인식기의
+                                                카드 번호 입니다.</label>
+                                        </div>
+                                        <div class="form-group">
+                                            <label>지점 선택</label>
+                                            <input type="hidden" id="userSign_accountBranch" name="Branch" value="<%=data.Branch%>" />
+                                            <select class="form-control" id="drop_branchName1" onchange="changeFunc()">
+                                            </select>
+                                        </div>
+                                        <div class="form-group">
+                                            <label>핸드폰 번호</label>
+                                            <input type="text" onkeydown='return onlyNumber(event)' onkeyup='removeChar(event)'
+                                                class="form-control" id="userSign_phoneNumber" name="SellPhone"
+                                                placeholder="ex) 01012345678" />
+                                        </div>
+                                        <div class="form-group">
+                                            <label>권한</label>
+                                            <select class="form-control" id="Authority_Default" onchange="DropCheck()">
+                                                <option>없음</option>
+                                                <option value="관리자">관리자</option>
+                                                <option value="지점장">지점장</option>
+                                                <option value="직원">직원</option>
+                                            </select>
+                                        </div>
+                                        <div class="form-group">
+                                            <label>사용자 권한</label>
+                                            <div class="checkbox">
+                                                <label>
+                                                    <input type="checkbox" name="Authority0">사용자 정보
+                                                </label>
+                                            </div>
+                                            <div class="checkbox">
+                                                <label>
+                                                    <input type="checkbox" name="Authority1">사용자 등록
+                                                </label>
+                                            </div>
+                                            <div class="checkbox">
+                                                <label>
+                                                    <input type="checkbox" name="Authority2">지점 정보
+                                                </label>
+                                            </div>
+                                            <div class="checkbox">
+                                                <label>
+                                                    <input type="checkbox" name="Authority3">지점 등록
+                                                </label>
+                                            </div>
+                                            <div class="checkbox">
+                                                <label>
+                                                    <input type="checkbox" name="Authority4">클라이언트 정보
+                                                </label>
+                                            </div>
+                                            <div class="checkbox">
+                                                <label>
+                                                    <input type="checkbox" name="Authority5">클라이언트 등록
+                                                </label>
+                                            </div>
+                                            <div class="checkbox">
+                                                <label>
+                                                    <input type="checkbox" name="Authority6">서비스 상태
+                                                </label>
+                                            </div>
+                                            <div class="checkbox">
+                                                <label>
+                                                    <input type="checkbox" name="Authority7">요약 정보
+                                                </label>
+                                            </div>
+                                            <div class="checkbox">
+                                                <label>
+                                                    <input type="checkbox" name="Authority8">기간 조회
+                                                </label>
+                                            </div>
+                                            <div class="checkbox">
+                                                    <label>
+                                                        <input type="checkbox" name="Authority9">슈퍼 유저
+                                                    </label>
+                                                </div>
+                                            <p style="height: 5px;"></p>
+                                            <div class="controls col-xs-20">
+                                                <button type="submit" class="btn btn-success" style="width: 130px; height: 40px; font-size: 12pt;"
+                                                    onclick="calAuthority()">수정</button>
+                                            </div>
+                                        </div>
+                                    </form>
+                                </div>
+                                <!-- /.col-lg-6 (nested) -->
+                            </div>
+                            <!-- /.row (nested) -->
+                        </div>
+                        <!-- /.panel-body -->
+                    </div>
+                    <!-- /.panel -->
+                </div>
+                <!-- /.col-lg-12 -->
+            </div>
+            <!-- /.row -->
+        </div>
+        <!-- /#page-wrapper -->
+    </div>
+
+    <script>
+        var AuthorityEnum;
+        function changeFunc() {
+            var selectBox = document.getElementById("drop_branchName1");
+            var selectedValue = selectBox.options[selectBox.selectedIndex].value;
+            document.getElementById("userSign_accountBranch").value = selectedValue;
+        }
+
+        function SetDrop(id) {
+            AuthorityEnum = returnEnum();
+            $.ajax({
+                url: '/htmlbranchget',                //주소
+                dataType: 'json',                  //데이터 형식
+                type: 'POST',                      //전송 타입
+
+                success: function (result) {          //성공했을 때 함수 인자 값으로 결과 값 나옴
+                    if (result['error'] == "SUCCESS") {
+                        $("#" + id + "").empty();
+                        var resultData = JSON.parse(JSON.stringify(result['data']));
+
+                        var select = document.getElementById(id);
+                        var option = document.createElement('option');
+                        option.value = "없음";
+                        option.innerHTML += "없음";
+                        select.appendChild(option);
+
+                        for (var i = 0; i < resultData.length; i++) {
+
+                            var branchName = resultData[i].BranchName;
+
+                            var option = document.createElement('option');
+                            if (branchName == "<%=data.Branch%>") {
+                                option.selected = true;
+                            }
+                            option.value = branchName;
+                            option.innerHTML += branchName;
+                            select.appendChild(option);
+                        }
+
+                        checkAuthority();
+                    }
+                }
+            });
+            var phone = "<%=data.SellPhone%>"
+            document.getElementById("userSign_phoneNumber").value = phone.replace(/-/g, "");
+        }
+
+        function DropCheck() {
+            AuthorityEnum = returnEnum();
+            var selectBox = document.getElementById("Authority_Default");
+            var selectedValue = selectBox.options[selectBox.selectedIndex].value;
+
+
+            var enumData;
+            for (var i = 0; i < Object.keys(AuthorityEnum.enumValue).length; i++) {
+                enumData = AuthorityEnum.enumValue[i];
+                $('[name=Authority' + enumData.value + ']').prop('checked', false);
+            }
+
+            if (selectedValue == '관리자') {
+                for (var i = 0; i < Object.keys(AuthorityEnum.enumValue).length; i++) {
+                    enumData = AuthorityEnum.enumValue[i];
+                    $('[name=Authority' + enumData.value + ']').prop('checked', true);
+                }
+
+            }
+            else if (selectedValue == '지점장') {
+                for (var i = 0; i < Object.keys(AuthorityEnum.enumValue).length; i++) {
+                    enumData = AuthorityEnum.enumValue[i];
+                    if (enumData.value == 1 || enumData.value == 3  || enumData.value == 9) {
+                        $('[name=Authority' + enumData.value + ']').prop('checked', false);
+                    }
+                    else {
+                        $('[name=Authority' + enumData.value + ']').prop('checked', true);
+                    }
+                }
+            }
+            else if (selectedValue == '직원') {
+                for (var i = 0; i < Object.keys(AuthorityEnum.enumValue).length; i++) {
+                    enumData = AuthorityEnum.enumValue[i];
+                    if ((enumData.value >= 0 && enumData.value <= 3)||  enumData.value == 9) {
+                        $('[name=Authority' + enumData.value + ']').prop('checked', false);
+                    }
+                    else {
+                        $('[name=Authority' + enumData.value + ']').prop('checked', true);
+                    }
+                }
+            }
+            else if (selectedValue == '없음') {
+                for (var i = 0; i < Object.keys(AuthorityEnum.enumValue).length; i++) {
+                    enumData = AuthorityEnum.enumValue[i];
+                    $('[name=Authority' + enumData.value + ']').prop('checked', false);
+                }
+            }
+        }
+        function calAuthority() {
+
+            var enumData;
+            var resultAuthority = '';
+
+            for (var i = 0; i < Object.keys(AuthorityEnum.enumValue).length; i++) {
+                enumData = AuthorityEnum.enumValue[i];
+                if ($('[name=Authority' + enumData.value + ']').prop('checked')) {
+                    resultAuthority += '1';
+                }
+                else {
+                    resultAuthority += '0';
+                }
+            }
+
+            document.getElementById('Authority').value = 0;
+            document.getElementById('Authority').value = resultAuthority;
+        }
+
+        function checkAuthority() {
+            AuthorityEnum = returnEnum();
+            for (var j = 0; j < Object.keys(AuthorityEnum.enumValue).length; j++) {
+                var str = '<%=data.Authority%>'.substr(j, 1);
+                if (str == '1') {
+                    $('[name=Authority' + j + ']').prop('checked', true);
+                }
+                else
+                {
+                    $('[name=Authority' + j + ']').prop('checked', false);
+                }
+            }
+        }
+    </script>
+    <!-- /#wrapper -->
+    <script type="text/javascript" src="/js/Func.js"></script>
+    <!-- jQuery -->
+    <script src="../vendor/jquery/jquery.min.js"></script>
+
+    <!-- Bootstrap Core JavaScript -->
+    <script src="../vendor/bootstrap/js/bootstrap.min.js"></script>
+
+    <!-- Metis Menu Plugin JavaScript -->
+    <script src="../vendor/metisMenu/metisMenu.min.js"></script>
+
+    <!-- Custom Theme JavaScript -->
+    <script src="../dist/js/sb-admin-2.js"></script>
+
+</body>
+
+</html>

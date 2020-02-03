@@ -1,0 +1,303 @@
+<!DOCTYPE html>
+<html lang="ko-kr">
+
+<head>
+
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta name="description" content="">
+    <meta name="author" content="">
+    <link rel="shortcut icon" type="image⁄x-icon" href="/image/Raphael_logo.png">
+
+    <title>등하원 관리 시스템</title>
+    <!-- Bootstrap Core CSS -->
+    <link href="../vendor/bootstrap/css/bootstrap.min.css" rel="stylesheet">
+    <!-- MetisMenu CSS -->
+    <link href="../vendor/metisMenu/metisMenu.min.css" rel="stylesheet">
+    <!-- Custom CSS -->
+    <link href="../dist/css/sb-admin-2.css" rel="stylesheet">
+    <!-- Custom Fonts -->
+    <link href="../vendor/font-awesome/css/font-awesome.min.css" rel="stylesheet" type="text/css">
+
+    <!-- HTML5 Shim and Respond.js IE8 support of HTML5 elements and media queries -->
+    <!-- WARNING: Respond.js doesn't work if you view the page via file:// -->
+    <!--[if lt IE 9]>
+        <script src="https://oss.maxcdn.com/libs/html5shiv/3.7.0/html5shiv.js"></script>
+        <script src="https://oss.maxcdn.com/libs/respond.js/1.4.2/respond.min.js"></script>
+    <![endif]-->
+
+    <style>
+        .help-block{
+      align: left;
+    }
+
+    	.nav.nav-second-level li a{
+		 padding-left: 50px;
+	}
+    </style>
+</head>
+
+<body onload="userDataGet()">
+
+    <div id="wrapper">
+
+        <!-- Navigation -->
+        <nav class="navbar navbar-default navbar-static-top" role="navigation" style="margin-bottom: 0">
+                <div>
+                        <button style="float :right" type="button" class="navbar-toggle" data-toggle="collapse" data-target=".navbar-collapse">
+                            <span class="sr-only">Toggle navigation</span>
+                            <span class="icon-bar"></span>
+                            <span class="icon-bar"></span>
+                            <span class="icon-bar"></span>
+                        </button>
+                        <a class="navbar-brand" href="/">등하원 관리 시스템</a>
+                        <ul style="float :right" class="nav navbar-top-links navbar-right">
+                            <li>
+                                <a href="#" class="menu" onclick="onLogOut()"><i class="fa fa-sign-out fa-fw"></i> 로그 아웃</a>
+                            </li>
+                        </ul>
+                    </div>
+                </nav>
+
+            <div class="navbar-default sidebar" role="navigation">
+                <div class="sidebar-nav navbar-collapse">
+                    <ul class="nav" id="side-menu">
+                        <li>
+                            <a href="aa"><i class="fa fa-user fa-fw"></i> 사용자 정보 관리<span class="fa arrow"></span></a>
+                            <ul class="nav nav-second-level">
+                                <li>
+                                    <a href="user_information">사용자 정보</a>
+                                </li>
+                                <li>
+                                    <a href="user_register">사용자 등록</a>
+                                </li>
+                                <li>
+                                    <a href="user_password_change">비밀번호 변경</a>
+                                </li>
+                            </ul>
+                        </li>
+                        <li>
+                            <a href="aa"><i class="fa fa-building fa-fw"></i> 지점 관리<span class="fa arrow"></span></a>
+                            <ul class="nav nav-second-level">
+                                <li>
+                                    <a href="branch_management">지점 정보</a>
+                                </li>
+                                <li>
+                                    <a href="branch_register">지점 등록</a>
+                                </li>
+                            </ul>
+                        </li>
+                        <li>
+                            <a href="aa"><i class="fa fa-user-plus fa-fw"></i> 클라이언트 관리<span class="fa arrow"></span></a>
+                            <ul class="nav nav-second-level">
+                                <li>
+                                    <a href="client_management">클라이언트 정보</a>
+                                </li>
+                                <li>
+                                    <a href="client_register">클라이언트 등록</a>
+                                </li>
+                            </ul>
+                        </li>
+                        <li>
+                            <a href="aa"><i class="fa fa-rss fa-fw"></i> 서비스<span class="fa arrow"></span></a>
+                            <ul class="nav nav-second-level">
+                                <li>
+                                    <a href="service_management">서비스 상태</a>
+                                </li>
+                            </ul>
+                        </li>
+                        <li>
+                            <a href="#"><i class="fa fa-database fa-fw"></i> 데이터 조회<span class="fa arrow"></span></a>
+                            <ul class="nav nav-second-level">
+                                    <li><a href="data_info">요약 정보</a></li>
+                                    <li><a href="data_daily_check">당일 조회</a></li>
+                                    <li><a href="data_check">기간 조회</a></li>
+                            </ul>
+                        </li>
+                        <li>
+                            <a href="#"><i class="fa fa-history fa-fw"></i> 로그<span class="fa arrow"></span></a>
+                            <ul class="nav nav-second-level">
+                                <li><a href="log_management">RFID 로그</a></li>
+                            </ul>
+                            <!-- /.nav-second-level -->
+                        </li>
+                    </ul>
+                </div>
+                <!-- /.sidebar-collapse -->
+            </div>
+            <!-- /.navbar-static-side -->
+
+        <!-- /.row -->
+    </div>
+    <!-- /#page-wrapper -->
+
+    <div id="page-wrapper">
+        <div class="row">
+            <div class="col-lg-12">
+                <h3 class="page-header">내 정보</h3>
+            </div>
+            <!-- /.col-lg-12 -->
+        </div>
+        <!-- /.row -->
+        <div class="row">
+            <div class="col-lg-12">
+                <div class="panel panel-default">
+                    <div class="panel-body">
+                        <div class="row">
+                            <div class="col-lg-3">
+                                <form role="form" autocomplete="off">
+                                    <fieldset disabled>
+                                        <div class="form-group">
+                                            <label>계정명 <span style="font-size: 6pt;">&nbsp;</span></label>
+                                            <input class="form-control" id="userSign_accountName" name="LoginId" value=''
+                                                onkeyup='checkKor(event)' onblur="checkKorblur()" placeholder=""
+                                                required>
+                                        </div>
+                                        <div class="form-group">
+                                            <label>사용자명</label>
+                                            <input class="form-control" id="userSign_userName" name="Name">
+                                        </div>
+                                        <div class="form-group">
+                                            <label>RFID(13.6mhz)</label>
+                                            <input class="form-control" id="userSign_RFID1" name="RFID1">
+                                            <label class="help-block" style="font-size:8pt;">FRID13.6mhz는 차량에서 사용하는
+                                                인식기의 카드 번호 입니다.</label>
+                                        </div>
+                                        <div class="form-group">
+                                            <label>RFID(900mhz)</label>
+                                            <input class="form-control" id="userSign_RFID2" name="RFID2">
+                                            <label class="help-block" style="font-size:8pt;">FRID900mhz는 센터에서 사용하는 인식기의
+                                                카드 번호 입니다.</label>
+                                        </div>
+                                        <div class="form-group">
+                                            <label>지점</label>
+                                            <input class="form-control" value="없음" id="userSign_accountBranch" name="Branch" />
+                                        </div>
+                                        <div class="form-group">
+                                            <label>핸드폰 번호</label>
+                                            <input type="text" class="form-control" onkeydown='return onlyNumber(event)'
+                                                value="" onkeyup='removeChar(event)' onblur="checkblur()" id="userSign_phoneNumber"
+                                                name="SellPhone" placeholder="">
+                                        </div>
+                                        <div class="form-group">
+                                            <label>사용자 권한</label>
+                                            <div class="checkbox">
+                                                <label>
+                                                    <input type="checkbox" name="Authority0">사용자 정보
+                                                </label>
+                                            </div>
+                                            <div class="checkbox">
+                                                <label>
+                                                    <input type="checkbox" name="Authority1">사용자 등록
+                                                </label>
+                                            </div>
+                                            <div class="checkbox">
+                                                <label>
+                                                    <input type="checkbox" name="Authority2">지점 정보
+                                                </label>
+                                            </div>
+                                            <div class="checkbox">
+                                                <label>
+                                                    <input type="checkbox" name="Authority3">지점 등록
+                                                </label>
+                                            </div>
+                                            <div class="checkbox">
+                                                <label>
+                                                    <input type="checkbox" name="Authority4">클라이언트 정보
+                                                </label>
+                                            </div>
+                                            <div class="checkbox">
+                                                <label>
+                                                    <input type="checkbox" name="Authority5">클라이언트 등록
+                                                </label>
+                                            </div>
+                                            <div class="checkbox">
+                                                <label>
+                                                    <input type="checkbox" name="Authority6">서비스 상태
+                                                </label>
+                                            </div>
+                                            <div class="checkbox">
+                                                <label>
+                                                    <input type="checkbox" name="Authority7">요약 정보
+                                                </label>
+                                            </div>
+                                            <div class="checkbox">
+                                                <label>
+                                                    <input type="checkbox" name="Authority8">기간 조회
+                                                </label>
+                                            </div>
+                                            <div class="checkbox">
+                                                    <label>
+                                                        <input type="checkbox" name="Authority9">슈퍼 유저
+                                                    </label>
+                                                </div>
+                                        </div>
+                                </form>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    </div>
+
+
+    <script>
+        function userDataGet() {
+                        $.ajax({
+                            url: '/htmlaccountidxtodata',                //주소
+                            dataType: 'json',                  //데이터 형식
+                            type: 'POST',                      //전송 타입
+                            data: {
+                                'Idx': "<%=Idx%>"
+                            },
+
+                            success: function (result) {
+                                if (result['error'] == "SUCCESS") {
+                                   var clientData = JSON.parse(JSON.stringify(result['data']));
+
+                                   document.getElementById("userSign_accountName").value = clientData[0].LoginId;
+                                   document.getElementById("userSign_userName").value = clientData[0].Name;
+                                   document.getElementById("userSign_RFID1").value = clientData[0].RFID1;
+                                   document.getElementById("userSign_RFID2").value = clientData[0].RFID2;
+                                    document.getElementById("userSign_accountBranch").value = clientData[0].Branch;
+                                    document.getElementById("userSign_phoneNumber").value = clientData[0].SellPhone;
+                                    AuthorityEnum = returnEnum();
+                                    for (var j = 0; j < Object.keys(AuthorityEnum.enumValue).length; j++) {
+                                        var str = clientData[0].Authority.substr(j, 1);
+                                        if (str == '1') {
+                                            $('[name=Authority' + j + ']').prop('checked', true);
+                                        }
+                                        else {
+                                            $('[name=Authority' + j + ']').prop('checked', false);
+                                        }
+                                    }
+                                } //function끝
+                            }
+                        }); // ------      ajax 끝-----------------
+
+
+        }
+
+    </script>
+
+
+    <!-- /#wrapper -->
+    <script type="text/javascript" src="/js/Func.js"></script>
+    <!-- jQuery -->
+    <script src="../vendor/jquery/jquery.min.js"></script>
+
+    <!-- Bootstrap Core JavaScript -->
+    <script src="../vendor/bootstrap/js/bootstrap.min.js"></script>
+
+    <!-- Metis Menu Plugin JavaScript -->
+    <script src="../vendor/metisMenu/metisMenu.min.js"></script>
+
+    <!-- Custom Theme JavaScript -->
+    <script src="../dist/js/sb-admin-2.js"></script>
+
+</body>
+
+</html>

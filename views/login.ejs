@@ -1,0 +1,138 @@
+<!DOCTYPE html>
+<html lang="ko-kr">
+
+<head>
+
+  <meta charset="utf-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="description" content="">
+  <meta name="author" content="">
+
+  <title>등하원 관리 시스템</title>
+
+  <!-- Bootstrap Core CSS -->
+  <link href="../vendor/bootstrap/css/bootstrap.min.css" rel="stylesheet">
+
+  <!-- MetisMenu CSS -->
+  <link href="../vendor/metisMenu/metisMenu.min.css" rel="stylesheet">
+
+  <!-- Custom CSS -->
+  <link href="../dist/css/sb-admin-2.css" rel="stylesheet">
+
+  <!-- Custom Fonts -->
+  <link href="../vendor/font-awesome/css/font-awesome.min.css" rel="stylesheet" type="text/css">
+
+  <!-- HTML5 Shim and Respond.js IE8 support of HTML5 elements and media queries -->
+  <!-- WARNING: Respond.js doesn't work if you view the page via file:// -->
+  <!--[if lt IE 9]>
+        <script src="https://oss.maxcdn.com/libs/html5shiv/3.7.0/html5shiv.js"></script>
+        <script src="https://oss.maxcdn.com/libs/respond.js/1.4.2/respond.min.js"></script>
+    <![endif]-->
+  <style>
+    body {
+      text-align: center;
+    }
+    </style>
+
+</head>
+
+<body>
+
+<h4>주식회사 라파엘케어</h4>
+<h2>등하원 관리 시스템</h2>
+<br>
+<img src="/image/Raphael_logo.png" style="width: 250px; height: 240px;">
+<div class="container">
+	<div class="row">
+      <div class="col-md-4 col-md-offset-4">
+		<div class="login-panel panel panel-default">
+          <div class="panel-heading">
+				<h3 class="panel-title">로그인</h3>
+			</div>
+          <div class="panel-body">
+				<form role="form">
+				<fieldset>
+					<div class="form-group">
+						<input class="form-control" placeholder="계정명" id="id" name="id" type="id" onKeyDown="onKeyDown();"autofocus>
+					</div>
+					<div class="form-group">
+						<input class="form-control" placeholder="비밀번호" id="password" name="password" type="password" value="" onKeyDown="onKeyDown();"> 
+					</div>
+					<div class="checkbox">
+						<!-- <label>
+							<input name="remember" type="checkbox" value="Remember Me">자동 저장
+						</label> -->
+					</div>
+					<!-- Change this to a button or input when using this as a form -->
+          <a class="btn btn-lg btn-success btn-block"  onkeyup="enterkey()" onclick="onLogin()">로그인</a>         
+				</fieldset>
+				</form>
+          </div>
+			</div>
+		</div>
+    </div>
+</div>
+<a href="mailto:tiang80@mgame.com" class="navbar-btn btn-primary btn pull-center"><span class="fa fa-envelope" aria-hidden="true"></span> 이메일 문의</a>
+<script>
+
+    function onLogin() {
+
+      $.ajax({
+        url: '/homepagelogin',
+        dataType: 'json',
+        type: 'POST',
+        data: {
+          'accountid': document.getElementById('id').value,
+          'accountpass': document.getElementById('password').value,
+        },
+
+        success: function (result) {
+          if (result['error'] == "SUCCESS") {
+
+              document.location.href = "/";
+          }
+          else if (result['error'] == "PASSWARD FAILED") {
+            alert('잘못된 비밀번호 입니다.');
+
+          }
+          else if (result['error'] == "NOT EXIST ACCOUNTID") {
+            alert('없는 계정입니다. 이메일로 관리자에게 문의해 주세요.');
+          }
+        }
+
+      });
+    }
+    
+
+
+
+
+function onKeyDown()
+{
+     if(event.keyCode == 13)
+     {
+      onLogin();
+          //TODO : 실행시킬 코드
+     }
+}
+
+
+  </script>
+
+  
+  <!-- jQuery -->
+  <script src="../vendor/jquery/jquery.min.js"></script>
+
+  <!-- Bootstrap Core JavaScript -->
+  <script src="../vendor/bootstrap/js/bootstrap.min.js"></script>
+
+  <!-- Metis Menu Plugin JavaScript -->
+  <script src="../vendor/metisMenu/metisMenu.min.js"></script>
+
+  <!-- Custom Theme JavaScript -->
+  <script src="../dist/js/sb-admin-2.js"></script>
+
+</body>
+
+</html>

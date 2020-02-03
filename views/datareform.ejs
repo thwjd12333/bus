@@ -1,0 +1,247 @@
+<!DOCTYPE html>
+<html lang="ko-kr">
+
+<head>
+
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta name="description" content="">
+    <meta name="author" content="">
+    <link rel="shortcut icon" type="image⁄x-icon" href="/image/Raphael_logo.png">
+    <title>등하원 관리 시스템</title>
+    <!-- Bootstrap Core CSS -->
+    <link href="../vendor/bootstrap/css/bootstrap.min.css" rel="stylesheet">
+    <!-- MetisMenu CSS -->
+    <link href="../vendor/metisMenu/metisMenu.min.css" rel="stylesheet">
+    <!-- Custom CSS -->
+    <link href="../dist/css/sb-admin-2.css" rel="stylesheet">
+    <!-- Custom Fonts -->
+    <link href="../vendor/font-awesome/css/font-awesome.min.css" rel="stylesheet" type="text/css">
+
+    <!-- HTML5 Shim and Respond.js IE8 support of HTML5 elements and media queries -->
+    <!-- WARNING: Respond.js doesn't work if you view the page via file:// -->
+    <!--[if lt IE 9]>
+        <script src="https://oss.maxcdn.com/libs/html5shiv/3.7.0/html5shiv.js"></script>
+        <script src="https://oss.maxcdn.com/libs/respond.js/1.4.2/respond.min.js"></script>
+    <![endif]-->
+
+    <style>
+        .help-block{
+      text-align: left;
+    }
+		.nav.nav-second-level li a{
+		 padding-left: 50px;
+	}
+    </style>
+</head>
+
+<body onload="todayCheck()">
+
+    <div id="wrapper">
+            <nav class="navbar navbar-default navbar-static-top" role="navigation" style="margin-bottom: 0">
+                    <div>
+                        <button style="float :right" type="button" class="navbar-toggle" data-toggle="collapse" data-target=".navbar-collapse">
+                            <span class="sr-only">Toggle navigation</span>
+                            <span class="icon-bar"></span>
+                            <span class="icon-bar"></span>
+                            <span class="icon-bar"></span>
+                        </button>
+                        <a class="navbar-brand" href="/">등하원 관리 시스템</a>
+                        <ul style="float :right" class="nav navbar-top-links navbar-right">
+                            <li>
+                                <a href="#" class="menu" onclick="onLogOut()"><i class="fa fa-sign-out fa-fw"></i> 로그 아웃</a>
+                            </li>
+                        </ul>
+                    </div>
+                </nav>
+                <div class="navbar-default sidebar" role="navigation">
+			<div class="sidebar-collapse">
+				<ul class="nav" id="side-menu">
+					<li>
+						<a href="#"><i class="fa fa-user fa-fw"></i> 사용자 정보 관리<span class="fa arrow"></span></a>
+						<ul class="nav nav-second-level collapse">
+						  <li><a href="user_information">사용자 정보</a></li>
+						  <li><a href="user_register">사용자 등록</a></li>
+						  <li><a href="user_password_change">비밀번호 변경</a></li>
+						</ul>
+						<!-- /.nav-second-level -->
+					</li>
+					<li>
+						<a href="#"><i class="fa fa-building fa-fw"></i> 지점 관리<span class="fa arrow"></span></a>
+						<ul class="nav nav-second-level collapse">
+						  <li><a href="branch_management">지점 정보</a></li>
+						  <li><a href="branch_register">지점 등록</a></li>
+						</ul>
+						<!-- /.nav-second-level -->
+					</li>
+					<li>
+						<a href="#"><i class="fa fa-user-plus fa-fw"></i> 클라이언트 관리<span class="fa arrow"></span></a>
+						<ul class="nav nav-second-level collapse">
+						  <li><a href="client_management">클라이언트 정보</a></li>
+						  <li><a href="client_register">클라이언트 등록</a></li>
+						</ul>
+						<!-- /.nav-second-level -->
+					</li>
+					<li>
+						<a href="#"><i class="fa fa-rss fa-fw"></i> 서비스<span class="fa arrow"></span></a>
+						<ul class="nav nav-second-level collapse">
+						  <li><a href="service_management">서비스 상태</a></li>
+						</ul>
+						<!-- /.nav-second-level -->
+					</li>
+                <li class="active">
+                     <a href="#"><i class="fa fa-database fa-fw"></i> 데이터 조회<span class="fa arrow"></span></a>
+                         <ul class="nav nav-second-level">
+                                <li><a href="data_info">요약 정보</a></li>
+                         <li><a href="data_daily_check">당일 조회</a></li>
+                         <li><a href="data_check">기간 조회</a></li>
+                     </ul>
+              <!-- /.nav-second-level -->
+          </li>
+					<li>
+						<a href="#"><i class="fa fa-history fa-fw"></i> 로그<span class="fa arrow"></span></a>
+						<ul class="nav nav-second-level collapse">
+						  <li><a href="log_management">RFID 로그</a></li>
+						</ul>
+						<!-- /.nav-second-level -->
+                    </li>
+                  
+				</ul>
+			</div>
+        </div>
+
+        <div id="page-wrapper">
+            <div class="row">
+                <div class="col-lg-12">
+                    <h3 class="page-header">사용자 정보 수정</h3>
+                </div>
+                <!-- /.col-lg-12 -->
+            </div>
+            <!-- /.row -->
+            <div class="row">
+                <div class="col-lg-12">
+                    <div class="panel panel-default">
+                        <div class="panel-body">
+                            <div class="row">
+                                <div class="col-lg-3">
+                                  <form role="form"action = '/htmldatecheck_edittemview' method="post" autocomplete="off">
+                                   
+                                    <input type="hidden" name="Idx" value="<%=data.Idx%>">
+                                    <input type="hidden" name="Branch" value="<%=data.Branch%>">
+                                    <input type="hidden" name="GpsGoCenterRideTime" value="<%=data.GpsGoCenterRideTime%>">
+                                        <input type="hidden" name="GpsGoCenterArrivalTime" value="<%=data.GpsGoCenterArrivalTime%>">
+                                        <input type="hidden" name="GpsBackCenterQuitTime" value="<%=data.GpsBackCenterQuitTime%>">
+                                        <input type="hidden" name="GpsBackCenterGetoffTime" value="<%=data.GpsBackCenterGetoffTime%>">
+                                        <input type="hidden" name="RFID1" value="<%=data.RFID1%>">
+                                        <input type="hidden" name="RFID2" value="<%=data.RFID2%>">
+                                        <input type="hidden" name="IsToday" id = "IsToday" >
+                                      <div class="form-group">
+                                          <label for="disabledSelect">성명</label>
+                                          <input class="form-control" name="Name" type="text" placeholder="" value = "<%=data.Name%>" disabled>
+                                      </div>
+                                      <div class="form-group">
+                                          <label for="disabledSelect">성별</label>
+                                          <input class="form-control" name="Sex" type="text" placeholder="" value="<%=data.Sex%>" disabled>
+                                      </div>
+                                      <div class="form-group">
+                                          <label for="disabledSelect">생년월일</label>
+                                          <input class="form-control" name = "Birth" id="Birth" type="text" placeholder="" value="<%=data.Birth%>"disabled>
+                                      </div>
+                                      <div class="form-group">
+                                          <label for="disabledSelect">인정등급</label>
+                                          <input class="form-control" name="CareClass" type="text" placeholder=""  value="<%=data.CareClass%>" disabled>
+                                      </div>
+                                      <div class="form-group">
+                                          <label>승차시간</label>
+                                          <input class="form-control" id="GoCenterRideTime" name="GoCenterRideTime"value="<%=data.GoCenterRideTime%>">
+                                      </div>
+                                      <div class="form-group">
+                                          <label>등원시간</label>
+                                          <input class="form-control" id="GoCenterArrivalTime" name="GoCenterArrivalTime"value="<%=data.GoCenterArrivalTime%>">
+                                      </div>
+                                      <div class="form-group">
+                                          <label>하원시간</label>
+                                          <input class="form-control" id="BackCenterQuitTime" name="BackCenterQuitTime"value="<%=data.BackCenterQuitTime%>">
+                                      </div>
+                                      <div class="form-group">
+                                          <label>하차시간</label>
+                                          <input class="form-control" id="BackCenterGetoffTime" name="BackCenterGetoffTime"value="<%=data.BackCenterGetoffTime%>">
+                                      </div>
+                                    <p style="height: 5px;"></p>
+                                    <div class="controls col-xs-20">
+                                        <button type="submit" class="btn btn-success" style="width: 130px; height: 40px; font-size: 12pt;" 
+                                            >확인</button>
+                                    </div>
+                                  </div>
+                                  </form>
+
+                                </div>
+                                <!-- /.col-lg-6 (nested) -->
+                            </div>
+                            <!-- /.row (nested) -->
+                        </div>
+                        <!-- /.panel-body -->
+                    </div>
+                    <!-- /.panel -->
+                </div>
+                <!-- /.col-lg-12 -->
+            </div>
+            <!-- /.row -->
+        </div>
+        <!-- /#page-wrapper -->
+    </div>
+
+    <script>
+
+        function dateReform(date) {
+                var time = new Date(date);
+                if (isNaN(time) == false) {
+                    var format = time.getFullYear() + "-" + time.getMonth() + 1 + "-" + time.getDate() + " " + time.getHours() + ":" + time.getMinutes() + ":" + time.getSeconds();
+
+                    return format
+                }
+                else {
+                    return date;
+                }
+            }
+        function todayCheck()
+        {           
+            var today = new Date();
+            var todayDiff = new Date(today.getFullYear(), today.getMonth()+1, today.getDate());
+            var time = new Date(dateReform("<%=data.GoCenterRideTime%>"));
+            var timeDiff = new Date(time.getFullYear(), time.getMonth()+1, time.getDate());
+         
+            if(todayDiff.getTime() == timeDiff.getTime())
+            {
+                document.getElementById("IsToday").value = true;
+              
+            }
+            else
+            {
+                document.getElementById("IsToday").value =false;             
+            }
+            document.getElementById("GoCenterRideTime").value = dateReform("<%=data.GoCenterRideTime%>");
+            document.getElementById("GoCenterArrivalTime").value = dateReform("<%=data.GoCenterArrivalTime%>");
+            document.getElementById("BackCenterQuitTime").value = dateReform("<%=data.BackCenterQuitTime%>");
+            document.getElementById("BackCenterGetoffTime").value = dateReform("<%=data.BackCenterGetoffTime%>");
+        }
+       
+    </script>
+    <!-- /#wrapper -->
+    <script type="text/javascript" src="/js/Func.js"></script>
+    <!-- jQuery -->
+    <script src="../vendor/jquery/jquery.min.js"></script>
+
+    <!-- Bootstrap Core JavaScript -->
+    <script src="../vendor/bootstrap/js/bootstrap.min.js"></script>
+
+    <!-- Metis Menu Plugin JavaScript -->
+    <script src="../vendor/metisMenu/metisMenu.min.js"></script>
+
+    <!-- Custom Theme JavaScript -->
+    <script src="../dist/js/sb-admin-2.js"></script>
+
+</body>
+
+</html>

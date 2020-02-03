@@ -1,0 +1,808 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta name="description" content="">
+    <meta name="author" content="">
+    <link rel="shortcut icon" type="image⁄x-icon" href="/image/Raphael_logo.png">
+
+    <title>등하원 관리 시스템</title>
+
+    <!-- Bootstrap Core CSS -->
+    <link href="../vendor/bootstrap/css/bootstrap.min.css" rel="stylesheet">
+
+    <!-- MetisMenu CSS -->
+    <link href="../vendor/metisMenu/metisMenu.min.css" rel="stylesheet">
+
+    <!-- DataTables CSS -->
+    <link href="../vendor/datatables-plugins/dataTables.bootstrap.css" rel="stylesheet">
+
+    <!-- DataTables Responsive CSS -->
+    <link href="../vendor/datatables-responsive/dataTables.responsive.css" rel="stylesheet">
+
+    <!-- Custom CSS -->
+    <link href="../dist/css/sb-admin-2.css" rel="stylesheet">
+
+    <!-- Custom Fonts -->
+    <link href="../vendor/font-awesome/css/font-awesome.min.css" rel="stylesheet" type="text/css">
+
+    <link rel="stylesheet" type="text/css" href="https://ajax.googleapis.com/ajax/libs/jqueryui/1.8.16/themes/smoothness/jquery-ui.css"
+        media="all">
+    <!-- jQuery -->
+
+
+    <style>
+        .Hyperlink {
+        font-weight: bold;
+    }
+        .table, th {
+        text-align: center;
+    }
+        .nav.nav-second-level li a{
+         padding-left: 50px;
+    }
+
+     /* Default */
+            input[type=text],input[type=password]{font-family:"Malgun Gothic","맑은 고딕",Dotum,"돋움",Arial,sans-serif}
+            *{margin:0;padding:0;font-family:"Malgun Gothic","맑은 고딕",Dotum,"돋움",Arial,sans-serif}           
+            ol,ul{list-style:none} 
+            
+            .clearfix{*zoom:1}
+            .clearfix:after{content:"";display:block;clear:both;overflow:hidden}           
+        
+            .searchDate{overflow:hidden;margin-bottom:10px;*zoom:1}
+            .searchDate:after{display:block;clear:both;content:''}
+            .searchDate li{position:relative;float:left;margin:0 7px 0 0}
+            .searchDate li .chkbox2{display:block;text-align:center}
+            .searchDate li .chkbox2 input{position:absolute;z-index:-1 ; visibility: hidden;}
+            .searchDate li .chkbox2 label{display:block;width:72px;height:30px;font-size:14px;border:1px solid #dbdbdb; border-radius:5px;font-weight:bold;color:#555;text-align:center;line-height:28px;text-decoration:none;cursor:pointer;background:#fff}
+            .searchDate li .chkbox2.on label{background:#48b4ff}
+        
+            
+            .inpType{padding-left:6px;height:30px;line-height:28px;border:1px solid #dbdbdb}
+            .btncalendar{display:inline-block;width:22px;height:22px;text-indent:-999em} 
+           
+        </style>
+
+    <script src="../vendor/jquery/jquery.min.js"></script>
+    <script src="https://code.jquery.com/jquery-3.3.1.min.js"></script>
+
+    <script type="text/javascript" src="https://ajax.googleapis.com/ajax/libs/jqueryui/1.11.1/jquery-ui.min.js"></script>
+
+</head>
+
+<body onload="firstSetDrop()">
+    <div id="wrapper">
+        <nav class="navbar navbar-default navbar-static-top" role="navigation" style="margin-bottom: 0">
+            <div>
+                <button style="float :right" type="button" class="navbar-toggle" data-toggle="collapse" data-target=".navbar-collapse">
+                    <span class="sr-only">Toggle navigation</span>
+                    <span class="icon-bar"></span>
+                    <span class="icon-bar"></span>
+                    <span class="icon-bar"></span>
+                </button>
+                <a class="navbar-brand" href="/">등하원 관리 시스템</a>
+                <ul style="float :right" class="nav navbar-top-links navbar-right">
+                    <li><a href="#" class="menu" onclick="onLogOut()"><i class="fa fa-sign-out fa-fw"></i> 로그 아웃</a></li>
+                </ul>
+            </div>
+        </nav>
+        <div class="navbar-default sidebar" role="navigation">
+            <div class="sidebar-nav navbar-collapse">
+                <ul class="nav" id="side-menu">
+                    <li>
+                        <a href="#"><i class="fa fa-user fa-fw"></i> 사용자 정보 관리<span class="fa arrow"></span></a>
+                        <ul class="nav nav-second-level">
+                            <li><a href="user_information">사용자 정보</a></li>
+                            <li><a href="user_register">사용자 등록</a></li>
+                            <li><a href="user_password_change">비밀번호 변경</a></li>
+                        </ul>
+                        <!-- /.nav-second-level -->
+                    </li>
+                    <li>
+                        <a href="#"><i class="fa fa-building fa-fw"></i> 지점 관리<span class="fa arrow"></span></a>
+                        <ul class="nav nav-second-level">
+                            <li><a href="branch_management">지점 정보</a></li>
+                            <li><a href="branch_register">지점 등록</a></li>
+                        </ul>
+                        <!-- /.nav-second-level -->
+                    </li>
+                    <li>
+                        <a href="#"><i class="fa fa-user-plus fa-fw"></i> 클라이언트 관리<span class="fa arrow"></span></a>
+                        <ul class="nav nav-second-level">
+                            <li><a href="client_management">클라이언트 정보</a></li>
+                            <li><a href="client_register">클라이언트 등록</a></li>
+                        </ul>
+                        <!-- /.nav-second-level -->
+                    </li>
+                    <li>
+                        <a href="#"><i class="fa fa-rss fa-fw"></i> 서비스<span class="fa arrow"></span></a>
+                        <ul class="nav nav-second-level">
+                            <li><a href="service_management">서비스 상태</a></li>
+                        </ul>
+                        <!-- /.nav-second-level -->
+                    </li>
+                    <li class="active">
+                        <a href="#"><i class="fa fa-database fa-fw"></i> 데이터 조회<span class="fa arrow"></span></a>
+                        <ul class="nav nav-second-level">
+                            <li><a href="data_info">요약 정보</a></li>
+                            <li><a href="data_daily_check">당일 조회</a></li>
+                            <li><a class="active" href="data_check">기간 조회</a></li>
+                        </ul>
+                        <!-- /.nav-second-level -->
+                    </li>
+                    <li>
+                        <a href="#"><i class="fa fa-history fa-fw"></i> 로그<span class="fa arrow"></span></a>
+                        <ul class="nav nav-second-level">
+                            <li><a href="log_management">RFID 로그</a></li>
+                        </ul>
+                        <!-- /.nav-second-level -->
+                    </li>
+                </ul>
+            </div>
+        </div>
+
+        <div id="page-wrapper">
+            <div class="row">
+                <div class="col-lg-12">
+                   <h3 class="page-header" style = "float:left">기간 조회  </h3><h5 class="page-header" style="vertical-align: sub; float:left; line-height: 95%"><br>  당일 조회는 당일 조회 탭에서 확인하세요.</h5>
+                
+                    
+            
+                </div>
+             
+                 
+                      
+                    
+                <!-- /.col-lg-12 -->
+            </div>
+            
+            <% if( Authority.substr(7, 1) == '1' ) {%>
+            <div class="row">
+                <div class="panel-body">
+                    <div class="col-lg-12">
+                        <form class="form">
+                            <div class="form-group">
+                                <ul class="searchDate">
+                                    <li>
+                                        <span class="chkbox2">
+                                            <input type="radio" class="form-control" name="dateType" id="dateType1"
+                                                onclick="setSearchDate('0d')" />
+                                            <label for="dateType1">당일</label>
+                                        </span>
+                                    </li>
+                                    <li>
+                                        <span class="chkbox2">
+                                            <input type="radio" class="form-control" name="dateType" id="dateType2"
+                                                onclick="setSearchDate('3d')" />
+                                            <label for="dateType2">3일</label>
+                                        </span>
+                                    </li>
+                                    <li>
+                                        <span class="chkbox2">
+                                            <input type="radio" class="form-control" name="dateType" id="dateType3"
+                                                onclick="setSearchDate('1w')" />
+                                            <label for="dateType3">1주</label>
+                                        </span>
+                                    </li>
+                                    <li>
+                                        <span class="chkbox2">
+                                            <input type="radio" class="form-control" name="dateType" id="dateType4"
+                                                onclick="setSearchDate('2w')" />
+                                            <label for="dateType4">2주</label>
+                                        </span>
+                                    </li>
+                                    <li>
+                                        <span class="chkbox2">
+                                            <input type="radio" class="form-control" name="dateType" id="dateType5"
+                                                onclick="setSearchDate('1m')" />
+                                            <label for="dateType5">1개월</label>
+                                        </span>
+                                    </li>
+                                    <li>
+                                        <span class="chkbox2">
+                                            <input type="radio" class="form-control" name="dateType" id="dateType6"
+                                                onclick="setSearchDate('3m')" />
+                                            <label for="dateType6">3개월</label>
+                                        </span>
+                                    </li>
+                                    <li>
+                                        <span class="chkbox2">
+                                            <input type="radio" class="form-control" name="dateType" id="dateType7"
+                                                onclick="setSearchDate('6m')" />
+                                            <label for="dateType7">6개월</label>
+                                        </span>
+                                    </li>
+                                </ul>
+
+                                <div class="clearfix">
+                                    <!-- 시작일 -->
+                                    <span class="dset">
+                                        <input type="text" class="datepicker inpType form-control" style="width: 150px; display: inline; "
+                                            name="searchStartDate" id="searchStartDate">
+                                        <a href="#none" class="btncalendar dateclick">달력</a>
+                                    </span>
+                                    <span style="display:inline; vertical-align:middle; padding-right: 20px">~</span>
+                                    <!-- 종료일 -->
+                                    <span class="dset">
+                                        <input type="text" class="datepicker inpType form-control" style="width: 150px; display: inline;"
+                                            name="searchEndDate" id="searchEndDate">
+                                        <a href="#none" class="btncalendar dateclick">달력</a>
+                                    </span>
+                                </div>
+                            </div>
+                    </div>
+                </div>
+                </form>
+            </div>
+            <div class="row">
+                <div class="panel-body">
+                    <div class="col-lg-12">
+                        <form role="form">
+                            <div class="form-group">
+                                <input type="hidden" value="" id="checkBranch" name="Branch" />
+                                <select class="form-control" id="drop_branchName" style="width: 150px; float:left;" onchange="BranchFunc('drop_branchName','checkBranch')">
+                                </select>
+
+                                <button type="button" class="btn btn-primary" style="float:left;margin-left: 10px;" onclick="BtnFind()">검색</button>
+                            </div>
+                    </div>
+                </div>
+            </div>
+            <div class="row">
+                <div class="col-lg-12">
+                    <div id="panel-body" style="height: 100%;">
+                        <table width="100%" class="table table-striped table-bordered table-hover" id="dataTables-example">
+                            <thead>
+                                <tr>
+                                    <th>번호</th>
+                                    <th>지점명</th>
+                                    <th>성명</th>
+                                    <th>성별</th>
+                                    <th>생년월일</th>
+                                    <th>인정 등급</th>
+                                    <th>승차시간</th>
+                                    <th>등원시간</th>
+                                    <th>하원시간</th>
+                                    <th>하차시간</th>
+                                    <th>관리</th>
+                                </tr>
+                            </thead>
+                        </table>
+
+                    </div>
+                    <div id = "ButtonDiv" style="float:right"></div>
+                </div>                
+            </div>
+          
+            
+            <%} else {%>
+            <div>
+                <p>권한이 없습니다.</p>
+            </div>
+            <%}%>
+        </div>
+    </div>
+    <input type="hidden" name="GpsGoCenterRideTime" id = "GpsGoCenterRideTime">
+    <input type="hidden" name="GpsGoCenterArrivalTime"  id = "GpsGoCenterArrivalTime">
+    <input type="hidden" name="GpsBackCenterQuitTime"  id = "GpsBackCenterQuitTime">
+    <input type="hidden" name="GpsBackCenterGetoffTime" id = "GpsBackCenterGetoffTime" >
+    <input type="hidden" name="GpsNum" id = "GpsNum" >
+    <script>
+        var curDay1;
+        var curDay2;
+        var curBranch;
+
+        $(document).ready(function () {
+
+            //datepicker 한국어로 사용하기 위한 언어설정
+            $.datepicker.setDefaults($.datepicker.regional['ko']);
+
+            // Datepicker
+            $(".datepicker").datepicker({
+                showButtonPanel: true,
+                showMonthAfterYear: true,
+                dateFormat: "yy-mm-dd",
+                dayNames: ['월요일', '화요일', '수요일', '목요일', '금요일', '토요일', '일요일'],
+                dayNamesMin: ['월', '화', '수', '목', '금', '토', '일'],
+                monthNamesShort: ['1월', '2월', '3월', '4월', '5월', '6월', '7월', '8월', '9월', '10월', '11월', '12월'],
+                monthNames: ['1월', '2월', '3월', '4월', '5월', '6월', '7월', '8월', '9월', '10월', '11월', '12월'],
+                closeText: "닫기",
+                yearSuffix: '년',
+                currentText: '오늘',
+                onClose: function (selectedDate) {
+
+                    var eleId = $(this).attr("id");
+                    var optionName = "";
+
+                    if (eleId.indexOf("StartDate") > 0) {
+                        eleId = eleId.replace("StartDate", "EndDate");
+                        optionName = "minDate";
+                    } 
+                    else {
+                        eleId = eleId.replace("EndDate", "StartDate");
+                        optionName = "maxDate";
+                    }
+
+                    $("#" + eleId).datepicker("option", optionName, selectedDate);
+                    $(".searchDate").find(".chkbox2").removeClass("on");
+                }
+            });
+
+            $(".dateclick").dateclick();    // DateClick
+            $(".searchDate").schDate();        // searchDate
+
+        });
+
+        // Search Date
+        jQuery.fn.schDate = function () {
+            var $obj = $(this);
+            var $chk = $obj.find("input[type=radio]");
+            $chk.click(function () {
+                $('input:not(:checked)').parent(".chkbox2").removeClass("on");
+                $('input:checked').parent(".chkbox2").addClass("on");
+            });
+        };
+
+        // DateClick
+        jQuery.fn.dateclick = function () {
+            var $obj = $(this);
+            $obj.click(function () {
+                $(this).parent().find("input").focus();
+            });
+        }
+
+        function setSearchDate(start) {
+
+            var num = start.substring(0, 1);
+            var str = start.substring(1, 2);
+
+            var today = new Date();           
+            today.setDate(today.getDate() - 1);
+            
+ 
+            var endDate = $.datepicker.formatDate('yy-mm-dd', today);
+            $('#searchEndDate').val(endDate);
+
+            if (str == 'd') {
+                today.setDate((today.getDate() - num) );
+            } else if (str == 'w') {
+                today.setDate(today.getDate() - (num  * 7));
+            } else if (str == 'm') {
+                today.setMonth(today.getMonth() -num);
+                today.setDate(today.getDate());
+            }
+
+             var startDate = $.datepicker.formatDate('yy-mm-dd', today);
+            $('#searchStartDate').val(startDate);
+
+            // 종료일은 시작일 이전 날짜 선택하지 못하도록 비활성화
+            $("#searchEndDate").datepicker("option", "minDate", startDate);
+
+            // 시작일은 종료일 이후 날짜 선택하지 못하도록 비활성화
+            $("#searchStartDate").datepicker("option", "maxDate", endDate);
+        }
+
+        //검색 버튼 클릭시
+        function BtnFind() {
+
+            var branchName = document.getElementById("checkBranch").value;
+            
+         
+            var day1 = document.getElementById("searchStartDate").value;
+            var day2 = document.getElementById("searchEndDate").value;
+
+            if (day1 != "" && day2 != "") {
+
+            }
+            else {
+                alert("날짜를 선택하세요.");
+            }
+            curDay1 = $('#searchStartDate').val();
+            curDay2 = $('#searchEndDate').val();
+              
+
+                curBranch = $('#checkBranch').val(); 
+           
+            
+            var table = $('#dataTables-example').DataTable();
+            table.ajax.reload();           
+            
+        }
+
+        //데이터 테이블 로드
+        function dataCheckGet() {
+            var AuthorityEnum = returnEnum();
+          
+           
+            if ("<%= Authority%>".substr(AuthorityCheck("기간 조회", AuthorityEnum), 1) == '1') {
+                curDay1 = $('#searchStartDate').val();
+                curDay2 = $('#searchEndDate').val();              
+
+                curBranch = $('#checkBranch').val(); 
+                              
+                // //테이블 수정,삭제 버튼내 row 위치
+                var Num = 0;
+                var table = $('#dataTables-example').DataTable({
+                    responsive: true,
+                    retrieve: true,
+                    bAutoWidth: false,
+                    processing: true,
+
+                    "ajax": {
+                        "url": "/htmldatecheck_temview_lastday",
+                        "type": "POST",
+                        "data": function (d) {
+                            d.day1 = $('#searchStartDate').val();
+                            d.day2 = $('#searchEndDate').val();
+                           
+                          
+                            d.branch = $('#checkBranch').val();
+                        }
+                    },
+
+                    "columns": [
+                    { data: "Idx" },
+                        { data: "Branch" },
+                        { data: "Name" },
+                        { data: "Sex" },
+                        {
+                            data: "Birth",
+                            render: function (data) {
+                                return DateReform(data);
+                            }
+                        },
+                        { data: "CareClass" },
+                        {
+                            data: function (data) {
+
+                                var time = new Date(data.GoCenterRideTime);
+                                if (isNaN(time) == false) {
+                                    var format = formatDate(time);
+                                 
+                                    return "<form name='frmData' id='frmData"+data.Idx+"' method='post'></form> <a href ='#' onclick='popup("+ data.Idx +","+1+")'>" + format + "</a>"
+                                }
+                                else {
+                                    return "<form name='frmData' id='frmData"+data.Idx+"' method='post'></form> <a href ='#' onclick='popup("+ data.Idx +","+1+")'>" + data.GoCenterRideTime + "</a>"
+                                }
+                            }
+                        },
+                        {
+                            data: function (data) {
+                                var time = new Date(data.GoCenterArrivalTime);
+                                if (isNaN(time) == false) {
+                                    var format = formatDate(time);
+
+                                    return  "<form name='frmData' id='frmData"+data.Idx+"' method='post'></form> <a href ='#' onclick='popup("+ data.Idx +","+2+")'>" + format + "</a>"
+                                }
+                                else {
+                                    return "<form name='frmData' id='frmData"+data.Idx+"' method='post'></form> <a href ='#' onclick='popup("+ data.Idx +","+2+")'>" + data.GoCenterArrivalTime + "</a>"
+                                }
+                            }
+                        },
+                        {
+                            data: function (data) {
+                                var time = new Date(data.BackCenterQuitTime);
+                                if (isNaN(time) == false) {
+                                    var format = formatDate(time);
+
+                                    return  "<form name='frmData' id='frmData"+data.Idx+"' method='post'></form> <a href ='#' onclick='popup("+ data.Idx +","+3+")'>" + format + "</a>"                                
+                                }
+                                else {
+                                    return "<form name='frmData' id='frmData"+data.Idx+"' method='post'></form> <a href ='#' onclick='popup("+ data.Idx +","+3+")'>" + data.BackCenterQuitTime + "</a>"
+                                }
+                            }
+                        },
+                        {
+                            data: function (data) {
+                                var time = new Date(data.BackCenterGetoffTime);
+                                if (isNaN(time) == false) {
+                                    var format = formatDate(time);
+
+                                    return "<form name='frmData' id='frmData"+data.Idx+"' method='post'></form> <a href ='#' onclick='popup("+ data.Idx +","+4+")'>" + format + "</a>" 
+                                }
+                                else {
+                                    return "<form name='frmData' id='frmData"+data.Idx+"' method='post'></form> <a href ='#' onclick='popup("+ data.Idx +","+4+")'>" + data.BackCenterGetoffTime + "</a>"
+                                }
+                            }
+                        },
+                        {
+                            "data": "Idx",
+                            render: function (data) {
+                                return "<button type='button' class='btn btn-outline btn-primary btn-xs' onclick='checkReform(" + data + ")'>수정</button>"
+                            }
+                        },
+
+
+                    ],
+                    "order": [[0, "desc"]],
+
+                    buttons: [{
+                        extend: 'excel',
+                        text: '엑셀',
+                        filename: 'RFID 로그',
+                        footer: true,
+                        className: 'clickExcel'
+                    }]
+
+                });
+                $('#container').css('display', 'block');
+                table.columns.adjust().draw();
+
+                $('#ButtonDiv').prepend('<button type="button" class = "btn btn-success" id="exportCSV">엑셀로 내보내기</button>');
+                $('#exportCSV').on('click', function () {
+                    table.button('.clickExcel').trigger();
+                })
+            }
+        }
+
+         function formatDate(time) {
+                var year = time.getFullYear();
+                var month = time.getMonth() + 1;
+                var day = time.getDate();
+
+
+                if (month < 10) {
+                    month = "0" + month;
+                }
+                if (day < 10) {
+                    day = "0" + day;
+                }
+                return year + "-" + month + "-" + day + " " + time.getHours() + ":" + time.getMinutes() + ":" + time.getSeconds();
+            }
+
+
+
+        function checkReform(idx) {
+            $.ajax({
+                url: '/htmldatecheck_temview_lastday',                //주소
+                dataType: 'json',                  //데이터 형식
+                type: 'POST',                      //전송 타입
+                data: {
+                    'dya1': curDay1,
+                    'day2': curDay2,
+                    'branch': curBranch
+                },
+
+                success: function (result) {
+                    if (result['error'] == "SUCCESS") {
+                        var clientData = JSON.parse(JSON.stringify(result['data']));
+
+                        for (var i = 0; i < clientData.length; i++) {
+                            if (idx == clientData[i].Idx) {
+                                var this_row = clientData[i];
+
+                                var form = document.createElement('form');
+                                form.setAttribute('method', "post");
+                                form.setAttribute('action', '/datareform');
+
+                                formData(this_row.Idx, form, 'Idx');
+                                formData(this_row.Branch, form, 'Branch');
+                                formData(this_row.Name, form, 'Name');
+                                formData(this_row.Sex, form, 'Sex');
+                                formData(this_row.Birth, form, 'Birth');
+                                formData(this_row.CareClass, form, 'CareClass');
+                                formData(this_row.GoCenterRideTime, form, 'GoCenterRideTime');
+                                formData(this_row.GoCenterArrivalTime, form, 'GoCenterArrivalTime');
+                                formData(this_row.BackCenterQuitTime, form, 'BackCenterQuitTime');
+                                formData(this_row.BackCenterGetoffTime, form, 'BackCenterGetoffTime');
+                                formData(this_row.GpsGoCenterRideTime, form, 'GpsGoCenterRideTime');
+                                formData(this_row.GpsGoCenterArrivalTime, form, 'GpsGoCenterArrivalTime');
+                                formData(this_row.GpsBackCenterQuitTime, form, 'GpsBackCenterQuitTime');
+                                formData(this_row.GpsBackCenterGetoffTime, form, 'GpsBackCenterGetoffTime');
+                                formData(this_row.RFID1, form, 'RFID1');
+                                formData(this_row.RFID2, form, 'RFID2');
+                                document.body.appendChild(form);
+                                form.submit();
+                                return clientData[i];
+                            }
+                        }
+                    }
+                } //function끝
+            }); // ------      ajax 끝-----------------     
+        }
+
+        function BranchFunc(dorpId, saveId) {
+            var selectBox = document.getElementById(dorpId);
+            var selectedValue = selectBox.options[selectBox.selectedIndex].value;
+            document.getElementById(saveId).value = selectedValue;
+        }
+
+
+
+        //첫 시작시 오늘 날짜 세팅
+        function firstgetData() {        
+
+             var today = new Date();           
+            today.setDate(today.getDate() - 1);            
+ 
+            var endDate = $.datepicker.formatDate('yy-mm-dd', today);
+            $('#searchEndDate').val(endDate);
+            
+            var startDate = $.datepicker.formatDate('yy-mm-dd', today);
+            $('#searchStartDate').val(startDate);           
+          
+        }
+        //맨처음 시작할때 사용자 지점 검사후 지점에 맞게 테이블 세팅
+
+        function firstSetDrop() {
+            AuthorityEnum = returnEnum();
+            if ("<%=Authority%>".substr(AuthorityCheck("기간 조회", AuthorityEnum), 1) == '1') {
+                firstgetData();
+
+                $.ajax({
+                    url: '/htmlaccountidxtodata',                //주소
+                    dataType: 'json',                  //데이터 형식
+                    type: 'POST',                      //전송 타입
+                    data: {
+                        'Idx': "<%=Idx%>"
+                    },
+
+                    success: function (result) {
+                        if (result['error'] == "SUCCESS") {
+                            var clientData = JSON.parse(JSON.stringify(result['data']));
+
+                            curBranch = clientData[0].Branch;
+
+                            //슈퍼유저, 지점이 없을경우
+                            if (curBranch == '없음' || ("<%=Authority%>".substr(AuthorityCheck("슈퍼 유저", AuthorityEnum), 1) == '1')) {
+
+                                getBranchData('drop_branchName', 'checkBranch');
+                                document.getElementById("checkBranch").value = curBranch;
+                                //datetable 로드
+                                dataCheckGet();
+                            }
+
+                            else {
+                                $("#drop_branchName").empty();
+                                var resultData = JSON.parse(JSON.stringify(result['data']));
+
+                                var select = document.getElementById('drop_branchName');
+                                document.getElementById("checkBranch").value = curBranch;
+                                var option = document.createElement('option');
+                                option.value = curBranch;
+                                option.innerHTML += curBranch;
+                                select.appendChild(option);
+
+                                //datetable 로드
+                                dataCheckGet();
+                            }
+                        }
+
+                    } //function끝
+
+                }); // ------      ajax 끝-----------------               
+            }
+        }
+
+        function getIdxData(idx) {
+            $.ajax({
+                url: '/htmldatecheck_temview_lastday',                //주소
+                dataType: 'json',                  //데이터 형식
+                type: 'POST',                      //전송 타입
+                data: {
+                    'dya1': curDay1,
+                    'day2': curDay2,
+                    'branch': curBranch
+                },
+
+                success: function (result) {
+                    if (result['error'] == "SUCCESS") {
+                        var clientData = JSON.parse(JSON.stringify(result['data']));
+
+                        for (var i = 0; i < clientData.length; i++) {
+                            if (idx == clientData[i].Idx) {                             
+                                return clientData[i];
+                            }
+                        }
+                    }
+
+                } //function끝
+
+            }); // ------      ajax 끝-----------------               
+
+        }
+
+         var gpsNum = document.getElementById("GpsNum");  
+      function popup(Idx,gpsType) {                        
+             $.ajax({
+                url: '/htmldatecheck_temview_lastday',                //주소
+                dataType: 'json',                  //데이터 형식
+                type: 'POST',                      //전송 타입
+                data: {
+                    'dya1': curDay1,
+                    'day2': curDay2,
+                    'branch': curBranch
+                },
+
+              success: function (result) {
+                    if (result['error'] == "SUCCESS") {
+                        var clientData = JSON.parse(JSON.stringify(result['data']));
+                        var check = true;
+                        
+                        for (var i = 0; i < clientData.length; i++) {
+                            if (Idx == clientData[i].Idx) {   
+                                var gps1 = document.getElementById("GpsGoCenterRideTime");                           
+                                var gps2 = document.getElementById("GpsGoCenterArrivalTime");         
+                                var gps3 = document.getElementById("GpsBackCenterQuitTime");         
+                                var gps4 = document.getElementById("GpsBackCenterGetoffTime"); 
+                                
+                                var frmData = document.getElementById("frmData"+Idx+"");    
+                               
+                                if(gpsType == 1)
+                                {             
+                                    check = gpsDataSet(gps1,clientData[i].GpsGoCenterRideTime,1,frmData);
+                                    
+                                }
+                                else if (gpsType == 2) {                                   
+                                    check = gpsDataSet(gps2,clientData[i].GpsGoCenterArrivalTime,2,frmData);
+                                }
+                                else if(gpsType == 3)
+                                {                                   
+                                    check = gpsDataSet(gps3,clientData[i].GpsBackCenterQuitTime,3,frmData);
+                                }
+                                else if(gpsType == 4)
+                                {                                     
+                                    check = gpsDataSet(gps4,clientData[i].GpsBackCenterGetoffTime,4,frmData); 
+                                }
+                                 if(check == true)
+                                {      
+                                    var pop_title = "popupOpener";
+                                window.open("", pop_title, "width=516, height=416");
+
+                                
+                                frmData.target = pop_title;
+                                frmData.action = "/map_popup";                                  
+                                    frmData.submit();     
+                                }
+                            }
+                        }
+                    }
+                } //function끝
+            }); 
+        }
+
+        function gpsDataSet(name, data, index, form) {
+                name.value = "";
+                name.value = data;
+                gpsNum.value = index;
+                if(data != "-")
+                {                              
+                    form.appendChild(gpsNum);
+                    form.appendChild(name);
+                    return true;
+                }
+                else{
+                    alert("GPS데이터가 존재하지 않습니다.");
+                    return false;
+                }
+            }
+    </script>
+    <script src="https://use.fontawesome.com/releases/v4.7.0/js/all.js"></script>
+    <script type="text/javascript" src="/js/Func.js"></script>
+    <!-- Bootstrap Core JavaScript -->
+    <script src="../vendor/bootstrap/js/bootstrap.min.js"></script>
+
+    <!-- Metis Menu Plugin JavaScript -->
+    <script src="../vendor/metisMenu/metisMenu.min.js"></script>
+
+    <!-- DataTables JavaScript -->
+    <script src="../vendor/datatables/js/jquery.dataTables.min.js"></script>
+    <script src="../vendor/datatables-plugins/dataTables.bootstrap.min.js"></script>
+    <script src="https://cdn.datatables.net/responsive/2.2.3/js/dataTables.responsive.min.js"></script>
+    <script src="../vendor/datatables-responsive/dataTables.responsive.js"></script>
+    
+
+    <!-- Custom Theme JavaScript -->
+    <script src="../dist/js/sb-admin-2.js"></script>
+
+    <!-- Page-Level Demo Scripts - Tables - Use for reference -->
+
+</body>
+
+</html>
+
+ 

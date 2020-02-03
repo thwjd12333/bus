@@ -1,0 +1,302 @@
+<!DOCTYPE html>
+<html lang="ko-kr">
+
+<head>
+
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta name="description" content="">
+    <meta name="author" content="">
+    <link rel="shortcut icon" type="image⁄x-icon" href="/image/Raphael_logo.png">
+    <title>등하원 관리 시스템</title>
+    <!-- Bootstrap Core CSS -->
+<link href="../vendor/bootstrap/css/bootstrap.min.css" rel="stylesheet">
+<!-- MetisMenu CSS -->
+<link href="../vendor/metisMenu/metisMenu.min.css" rel="stylesheet">
+<!-- Custom CSS -->
+<link href="../dist/css/sb-admin-2.css" rel="stylesheet">
+<!-- Custom Fonts -->
+<link href="../vendor/font-awesome/css/font-awesome.min.css" rel="stylesheet" type="text/css">
+
+<!-- HTML5 Shim and Respond.js IE8 support of HTML5 elements and media queries -->
+<!-- WARNING: Respond.js doesn't work if you view the page via file:// -->
+<!--[if lt IE 9]>
+        <script src="https://oss.maxcdn.com/libs/html5shiv/3.7.0/html5shiv.js"></script>
+        <script src="https://oss.maxcdn.com/libs/respond.js/1.4.2/respond.min.js"></script>
+    <![endif]-->
+
+<style>
+    .help-block{
+      align : left;
+    }
+    .nav.nav-second-level li a{
+		 padding-left: 50px;
+    }
+
+    </style>
+
+</head>
+
+<body onload="replaceData()">
+
+    <div id="wrapper">
+
+        <!-- Navigation -->
+        <nav class="navbar navbar-default navbar-static-top" role="navigation" style="margin-bottom: 0">
+                <div>
+                    <button style="float :right" type="button" class="navbar-toggle" data-toggle="collapse" data-target=".navbar-collapse">
+                        <span class="sr-only">Toggle navigation</span>
+                        <span class="icon-bar"></span>
+                        <span class="icon-bar"></span>
+                        <span class="icon-bar"></span>
+                    </button>
+                    <a class="navbar-brand" href="183.110.220.11:15000">등하원 관리 시스템</a>
+                    <ul style="float :right" class="nav navbar-top-links navbar-right">
+                        <li>
+                            <a href="#" class="menu" onclick="onLogOut()"><i class="fa fa-sign-out fa-fw"></i> 로그 아웃</a>
+                        </li>
+                    </ul>
+                </div>
+            </nav>
+
+            <div class="navbar-default sidebar" role="navigation">
+                <div class="sidebar-nav navbar-collapse">
+                    <ul class="nav" id="side-menu">
+
+                        <li>
+                            <a href="#"><i class="fa fa-user fa-fw"></i> 사용자 정보 관리<span class="fa arrow"></span></a>
+                            <ul class="nav nav-second-level">
+                                <li>
+                                    <a href="user_information">사용자 정보</a>
+                                </li>
+                                <li>
+                                    <a href="user_register">사용자 등록</a>
+                                </li>
+                                <li>
+                                    <a href="user_password_change">비밀번호 변경</a>
+                                </li>
+                            </ul>
+                        </li>
+                        <li class="active">
+                            <a  href="#"><i class="fa fa-building fa-fw"></i> 지점 관리<span class="fa arrow"></span></a>
+                            <ul class="nav nav-second-level">
+                                <li>
+                                    <a class="active" href="branch_management">지점 정보</a>
+                                </li>
+                                <li>
+                                    <a  href="branch_register">지점 등록</a>
+                                </li>
+                            </ul>
+                        </li>
+                        <li>
+                            <a href="#"><i class="fa fa-user-plus fa-fw"></i> 클라이언트 관리<span class="fa arrow"></span></a>
+                            <ul class="nav nav-second-level">
+                                <li>
+                                    <a href="client_management">클라이언트 정보</a>
+                                </li>
+                                <li>
+                                    <a href="client_register">클라이언트 등록</a>
+                                </li>
+                            </ul>
+                        </li>
+                        <li>
+                            <a href="#"><i class="fa fa-rss fa-fw"></i> 서비스<span class="fa arrow"></span></a>
+                            <ul class="nav nav-second-level">
+                                <li>
+                                    <a href="service_management">서비스 상태</a>
+                                </li>
+                            </ul>
+                        </li>
+                        <li>
+                            <a href="#"><i class="fa fa-database fa-fw"></i> 데이터 조회<span class="fa arrow"></span></a>
+                            <ul class="nav nav-second-level">
+                                    <li><a href="data_info">요약 정보</a></li>
+                                    <li><a href="data_daily_check">당일 조회</a></li>
+                                    <li><a href="data_check">기간 조회</a></li>
+                            </ul>
+                        </li>
+                        <li>
+                            <a href="#"><i class="fa fa-history fa-fw"></i> 로그<span class="fa arrow"></span></a>
+                            <ul class="nav nav-second-level">
+                                <li><a href="log_management">RFID 로그</a></li>
+                            </ul>
+                            <!-- /.nav-second-level -->
+                        </li>
+                    </ul>
+                </div>
+                <!-- /.sidebar-collapse -->
+            </div>
+            <!-- /.navbar-static-side -->
+
+
+        <div id="page-wrapper">
+            <div class="row">
+                <div class="col-lg-12">
+                    <h3 class="page-header">지점 수정</h3>
+                </div>
+                <!-- /.col-lg-12 -->
+            </div>
+            <!-- /.row -->
+            <div class="row">
+                <div class="col-lg-12">
+                    <div class="panel panel-default">
+                        <div class="panel-body">
+                            <div class="row">
+                                <div class="col-lg-3">
+                                    <form role="form" action="/htmlbranchedit" method="post"
+                                        onsubmit="return CheckNum()" autocomplete="off">
+                                        <input type="hidden" name="Idx" value="<%=data.Idx%>">
+                                        <div class="form-group">
+                                            <label>지점명</label>
+                                            <input type="text" class="form-control" id="branchName" name="BranchName"
+                                                value="<%=data.BranchName%>" placeholder="<%=data.BranchName%>" />
+                                        </div>
+                                        <div class="form-group">
+                                            <label>지점 주소</label>&nbsp;&nbsp;&nbsp;<span type="button" class="btn btn-success btn-xs"
+                                                onclick='FindAddress()'>주소 검색</span>
+                                            <input type='text' class='form-control' id='branchAdress' name='BranchAdress'
+                                                autocomplete="anyrandomstring" />
+                                        </div>
+                                        <div class="form-group">
+                                            <label>세부 주소</label>
+                                            <input type="text" class="form-control" id="detailAddress" value=''
+                                                autocomplete="anyrandomstring">
+                                        </div>
+
+                                        <script>
+                                            var address = "<%=data.BranchAdress%>"
+                                            var afterStr = address.split('/');
+
+                                            document.getElementById('branchAdress').value = afterStr[0].trim();
+                                            document.getElementById('detailAddress').value = afterStr[1].trim();
+                                        </script>
+
+                                        <div class="form-group">
+                                            <label>사업자 번호</label>
+                                            <input type="text" class="form-control" id="businessLicense" name="BusinessLicense"
+                                                value="<%=data.BusinessLicense%>" autocomplete="anyrandomstring">
+                                        </div>
+                                        <div class="form-group">
+                                            <label>전화 번호</label>
+                                            <input type="text" onkeydown='return onlyNumber(event)' onkeyup='removeChar(event)'
+                                                class="form-control" id="branchPhone" name="Phone" placeholder="전화번호"
+                                                autocomplete="anyrandomstring">
+                                        </div>
+                                        <p style="height: 5px;"></p>
+                                        <div class="controls col-xs-20">
+                                            <button type="submit" class="btn btn-success" style="width: 130px; height: 40px; font-size: 12pt;"
+                                                onclick='EditBranch()'>등록</button>
+                                        </div>
+                                </div>
+                                </form>
+                            </div>
+
+                            <!-- /.col-lg-6 (nested) -->
+                        </div>
+                        <!-- /.row (nested) -->
+                    </div>
+                    <!-- /.panel-body -->
+                </div>
+                <!-- /.panel -->
+            </div>
+            <!-- /.col-lg-12 -->
+        </div>
+        <!-- /.row -->
+    </div>
+    <!-- /#page-wrapper -->
+    <!-- /#wrapper -->
+
+    <script>
+        function CheckNum() {
+            if (document.getElementById('branchName').value != '') {
+                if (document.getElementById('branchPhone').value.length == 0 || document.getElementById('branchPhone').value.length == 10 || document.getElementById('branchPhone').value.length == 11) {
+                    return true;
+                }
+                else { alert("전화번호를 다시 확인하십시오.") }
+            }
+            else { alert("지점명을 입력하세요.") }
+            return false;
+        }
+        function EditBranch() {
+            document.getElementById("branchAdress").value += '  /  ' + document.getElementById("detailAddress").value;
+        }
+
+        function FindAddress() {
+            new daum.Postcode({
+                oncomplete: function (data) {
+                    // 팝업에서 검색결과 항목을 클릭했을때 실행할 코드를 작성하는 부분.
+
+                    // 각 주소의 노출 규칙에 따라 주소를 조합한다.
+                    // 내려오는 변수가 값이 없는 경우엔 공백('')값을 가지므로, 이를 참고하여 분기 한다.
+                    var fullAddr = ''; // 최종 주소 변수
+                    var extraAddr = ''; // 조합형 주소 변수
+                    var zondCode = '';
+                    // 사용자가 선택한 주소 타입에 따라 해당 주소 값을 가져온다.
+
+
+                    if (data.userSelectedType === 'R') { // 사용자가 도로명 주소를 선택했을 경우
+                        fullAddr = data.roadAddress;
+
+                    }
+                    else { // 사용자가 지번 주소를 선택했을 경우(J)
+                        fullAddr = data.jibunAddress;
+                    }
+
+                    // 사용자가 선택한 주소가 도로명 타입일때 조합한다.
+                    if (data.userSelectedType === 'R') {
+                        //법정동명이 있을 경우 추가한다.
+                        if (data.bname !== '') {
+                            extraAddr += data.bname;
+                        }
+                        // 건물명이 있을 경우 추가한다.
+                        if (data.buildingName !== '') {
+                            extraAddr += (extraAddr !== '' ? ', ' + data.buildingName : data.buildingName);
+                        }
+                        // 조합형주소의 유무에 따라 양쪽에 괄호를 추가하여 최종 주소를 만든다.
+
+                        fullAddr += (extraAddr !== '' ? ' (' + extraAddr + ')' : '');
+
+                    }
+                    zondCode = data.zonecode;
+                    fullAddr = '(' + zondCode + ')  ' + fullAddr;
+                    // 우편번호와 주소 정보를 해당 필드에 넣는다.
+                    document.getElementById("branchAdress").value = fullAddr; //5자리 새우편번호 사용
+
+                    // 커서를 상세주소 필드로 이동한다.
+                    document.getElementById('detailAddress').focus();
+                }
+            }).open();
+        }
+
+        function replaceData() {
+            var phone = "<%=data.Phone%>"
+            document.getElementById("branchPhone").value = phone.replace(/-/g, "");
+
+            // test11();
+        }
+        // function test11()
+        // {
+        //     alert("in");
+        //     document.getElementsByClassName('branchDrop').click();
+        // }
+        //branchDrop.click();
+    </script>
+    <!-- 주소 검색 -->
+    <script src="https://ssl.daumcdn.net/dmaps/map_js_init/postcode.v2.js"></script>
+    <script type="text/javascript" src="/js/Func.js"></script>
+    <!-- jQuery -->
+    <script src="../vendor/jquery/jquery.min.js"></script>
+
+    <!-- Bootstrap Core JavaScript -->
+    <script src="../vendor/bootstrap/js/bootstrap.min.js"></script>
+
+    <!-- Metis Menu Plugin JavaScript -->
+    <script src="../vendor/metisMenu/metisMenu.min.js"></script>
+
+    <!-- Custom Theme JavaScript -->
+    <script src="../dist/js/sb-admin-2.js"></script>
+
+</body>
+
+</html> -->
